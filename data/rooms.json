@@ -1,0 +1,37 @@
+[
+  {
+    "game_id": 1,
+    "name": "Marilyn",
+    "room_number": 0
+  },
+  {
+    "game_id": 1,
+    "name": "Suite 2",
+    "room_number": 1
+  },
+  {
+    "game_id": 1,
+    "name": "Shared bath",
+    "room_number": 2
+  },
+  {
+    "game_id": 1,
+    "name": "Twin beds",
+    "room_number": 3
+  },
+  {
+    "game_id": 2,
+    "name": "Primary Suite",
+    "room_number": 1
+  },
+  {
+    "game_id": 2,
+    "name": "Shared bath",
+    "room_number": 2
+  },
+  {
+    "game_id": 2,
+    "name": "Room with twin beds & shared bath",
+    "room_number": 3
+  }
+]

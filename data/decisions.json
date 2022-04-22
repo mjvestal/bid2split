@@ -1,0 +1,12 @@
+[
+  {
+    "game_id": -1,
+    "player_id": 1,
+    "decision": 1,
+    "options": [
+      100,
+      100,
+      100
+    ]
+  }
+]
