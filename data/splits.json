@@ -3,5 +3,14 @@
     "id": 1,
     "rooms": 4,
     "total_price": 1000
+  },
+  {
+    "id": 2,
+    "listing_domain": "www.airbnb.com",
+    "listing_image": "https://a0.muscache.com/im/pictures/2ed21979-2ffb-47c6-b38c-1994cc3b1959.jpg?aki_policy=x_large",
+    "listing_title": "Cabin #4 2 bedrooms in Grand Lake w/ Hot Tub",
+    "listing_url": "https://www.airbnb.com/rooms/8904463",
+    "rooms": 3,
+    "total_price": 290
   }
 ]

@@ -26,6 +26,10 @@ describe('createSplit Helper', () => {
     // Called createSplit
     expect((createSplit as jest.Mock).mock.calls[0][0]).toEqual({
       rooms: ROOMS.length,
+      listingDomain: null,
+      listingImage: null,
+      listingTitle: null,
+      listingUrl: null,
       totalPrice: 2000,
     });
 

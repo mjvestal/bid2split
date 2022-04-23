@@ -72,5 +72,23 @@
     ],
     "room": 0,
     "rent": 267
+  },
+  {
+    "id": 1,
+    "game_id": 2,
+    "name": "Peter",
+    "bids": null
+  },
+  {
+    "id": 2,
+    "game_id": 2,
+    "name": "Paul",
+    "bids": null
+  },
+  {
+    "id": 3,
+    "game_id": 2,
+    "name": "Matthew",
+    "bids": null
   }
 ]

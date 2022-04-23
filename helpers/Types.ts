@@ -20,6 +20,7 @@ export type PlayerRoomRent = {
 
 export type SplitType = {
   id: number,
+  listing: Listing | null,
   pendingPlayers?: Player[],
   result?: PlayerRoomRent[],
   rooms: Room[],
@@ -37,3 +38,10 @@ export type MutatedSplit = {
   pendingPlayers?: Player[],
   result?: PlayerRoomRent[],
 }
+
+export type Listing = {
+  domain: string,
+  image: string,
+  title: string,
+  url: string,
+};

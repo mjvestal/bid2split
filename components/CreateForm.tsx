@@ -2,13 +2,17 @@ import BedroomsFormSection from "./BedroomsFormSection"
 import Button from "./Button";
 import MiscellaneousFormFields from "./MiscellaneousFormFields";
 import PeopleFormSection from "./PeopleFormSection";
+import urlRegexSafe from 'url-regex-safe';
 import { useRouter } from "next/router";
 import { useState } from "react"
+
+const urlRegEx = urlRegexSafe({exact: true, strict: true});
 
 export default function CreateForm() {
   const [bedrooms, setBedrooms] = useState(['', '']);
   const [people, setPeople] = useState(['', '']);
   const [totalPrice, setTotalPrice] = useState(-1);
+  const [listingUrl, setListingUrl] = useState('');
   const router = useRouter();
 
   const handleChangeBedrooms = (newBedrooms: string[]) => {
@@ -26,7 +30,10 @@ export default function CreateForm() {
   const validateForm = () => {
     const describedRooms = bedrooms.filter(room => room.trim().length > 0);
     const namedPeople = people.filter(person => person.trim().length > 0);
-    return describedRooms.length === namedPeople.length;
+    if (describedRooms.length !== namedPeople.length) {
+      return false;
+    }
+    return listingUrl.length === 0 || urlRegEx.test(listingUrl);
   }
 
   const createGame = async () => {
@@ -40,6 +47,7 @@ export default function CreateForm() {
       },
       body: JSON.stringify({
         autoChooseThreshold: 0.5,
+        listingUrl: listingUrl.trim(),
         players: people,
         rooms: bedrooms,
         totalPrice,
@@ -55,7 +63,12 @@ export default function CreateForm() {
     <div>
       <BedroomsFormSection bedrooms={bedrooms} onChange={handleChangeBedrooms} />
       <PeopleFormSection people={people} onChange={setPeople} />
-      <MiscellaneousFormFields totalPrice={totalPrice} onChangePrice={setTotalPrice} />
+      <MiscellaneousFormFields 
+        listingUrl={listingUrl}
+        totalPrice={totalPrice}
+        onChangeListingUrl={setListingUrl}
+        onChangePrice={setTotalPrice} 
+      />
       <div className="mt-4 flex items-center justify-center">
         <Button onClick={createGame}>Start</Button>
       </div>

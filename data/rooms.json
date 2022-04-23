@@ -21,17 +21,17 @@
   },
   {
     "game_id": 2,
-    "name": "Primary Suite",
+    "name": "Beige room",
     "room_number": 1
   },
   {
     "game_id": 2,
-    "name": "Shared bath",
+    "name": "Purple room",
     "room_number": 2
   },
   {
     "game_id": 2,
-    "name": "Room with twin beds & shared bath",
+    "name": "Sofa bed",
     "room_number": 3
   }
 ]

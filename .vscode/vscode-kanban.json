@@ -14,24 +14,45 @@
       "assignedTo": {
         "name": "matt_vestal"
       },
-      "creation_time": "2022-04-22T00:11:58.963Z",
-      "id": "1",
-      "prio": 1,
-      "references": [],
-      "title": "Add field for rental URL"
-    },
-    {
-      "assignedTo": {
-        "name": "matt_vestal"
-      },
       "creation_time": "2022-04-22T00:13:20.168Z",
       "id": "3",
       "prio": 1,
       "references": [],
       "title": "Render rental card"
+    },
+    {
+      "assignedTo": {
+        "name": "matt_vestal"
+      },
+      "creation_time": "2022-04-22T16:43:16.009Z",
+      "id": "4",
+      "prio": 1,
+      "references": [],
+      "title": "Switch to real DB"
+    },
+    {
+      "assignedTo": {
+        "name": "matt_vestal"
+      },
+      "creation_time": "2022-04-22T16:54:45.145Z",
+      "id": "5",
+      "prio": 1,
+      "references": [],
+      "title": "Random short text URL instead of numbers"
     }
   ],
-  "in-progress": [],
+  "in-progress": [
+    {
+      "assignedTo": {
+        "name": "matt_vestal"
+      },
+      "creation_time": "2022-04-22T00:11:58.963Z",
+      "id": "1",
+      "prio": 1,
+      "references": [],
+      "title": "Add field for rental URL"
+    }
+  ],
   "testing": [],
   "done": []
 }

@@ -1,19 +1,29 @@
+import { Listing, Player } from "helpers/Types";
+
 import Button from "./Button"
 import Headline from "./Headline"
+import ListingPreviewCard from "./ListingPreviewCard";
 import VerticalCenterLayout from "./VerticalCenterLayout";
 import { useState } from "react";
 
 export default function NotPlayersTurnPage({
+  listing,
   onClaimPlayer,
   players,
+  price,
 }: {
+  listing: Listing | null,
   onClaimPlayer: (id: number) => void,
-  players: {id: number, name: string}[],
+  players: Player[],
+  price: number,
 }) {
   const [selectedPlayer, setSelectedPlayer] = useState(-1);
   return (
     <VerticalCenterLayout>
-      <Headline>Select player</Headline>
+      <Headline>Bid on rooms</Headline>
+      <>
+        {listing != null && <ListingPreviewCard price={price} {...listing} /> }
+      </>
       <div className="self-start">
       {
         players.map(({id, name}) => {

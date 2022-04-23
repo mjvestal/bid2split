@@ -1,13 +1,13 @@
 import {EntPlayer, getPendingPlayersBySplitId, getPlayersBySplitId} from './players-repo';
-import { Player, PlayerRoomRent, PlayerWithBids, Room, SplitType, UnsolvedSplit } from './Types';
+import { Listing, Player, PlayerRoomRent, PlayerWithBids, Room, SplitType, UnsolvedSplit } from './Types';
 
 import {getRoomsBySplitId} from './rooms-repo';
 import {getSplitById} from './splits-repo';
 import nullthrows from 'nullthrows';
 
 export function retrieveUnsolvedSplit(id: number): UnsolvedSplit {
-  const game = getSplitById(id);
-  if (game == null) {
+  const split = getSplitById(id);
+  if (split == null) {
     throw Error(`No split for ID: ${id}`);
   }
   const players: PlayerWithBids[] = getPlayersBySplitId(id).map((player) => {
@@ -28,7 +28,7 @@ export function retrieveUnsolvedSplit(id: number): UnsolvedSplit {
     id,
     players,
     rooms,
-    totalPrice: game.total_price,
+    totalPrice: split.total_price,
   };
 }
 
@@ -51,8 +51,8 @@ function getSplitResult(players: EntPlayer[], rooms: Room[]): PlayerRoomRent[] {
 }
 
 export default function retrieveSplit(id: number): SplitType {
-  const game = getSplitById(id);
-  if (game == null) {
+  const split = getSplitById(id);
+  if (split == null) {
     throw Error(`No split for ID: ${id}`);
   }
   const rooms: Room[] = getRoomsBySplitId(id)?.map((room) => {
@@ -80,11 +80,28 @@ export default function retrieveSplit(id: number): SplitType {
     });
   }
 
+  const {
+    listing_domain,
+    listing_image,
+    listing_title,
+    listing_url,
+  } = split;
+  let listing: Listing | null = null;
+  if (listing_domain && listing_image && listing_title && listing_url) {
+    listing = {
+      domain: listing_domain,
+      image: listing_image,
+      title: listing_title,
+      url: listing_url,
+    };
+  }
+
   return {
     id,
+    listing,
     pendingPlayers,
     rooms,
-    totalPrice: game.total_price,
+    totalPrice: split.total_price,
     result,
   };
 }

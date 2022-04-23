@@ -12,6 +12,7 @@ module.exports = {
   },
   plugins: [
     require('@tailwindcss/forms'),
+    require('@tailwindcss/line-clamp'),
     require('@rvxlab/tailwind-plugin-ios-full-height'),
   ],
 }

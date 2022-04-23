@@ -1,5 +1,5 @@
 import type {GetServerSideProps, GetServerSidePropsContext} from 'next'
-import { MutatedSplit, Player, PlayerRoomRent, Room } from 'helpers/Types';
+import { Listing, MutatedSplit, Player, PlayerRoomRent, Room } from 'helpers/Types';
 
 import NotPlayersTurnPage from '../../components/NotPlayersTurnPage';
 import PendingPlayersPage from '../../components/PendingPlayersPage';
@@ -12,6 +12,7 @@ import {useState} from 'react';
 
 type Props = {
   splitId: number,
+  listing: Listing | null,
   pendingPlayers: Player[] | null,
   result: PlayerRoomRent[] | null,
   rooms: Room[],
@@ -20,6 +21,7 @@ type Props = {
 
 export default function SplitId({
   splitId,
+  listing,
   pendingPlayers,
   result,
   rooms,
@@ -41,7 +43,14 @@ export default function SplitId({
 
   if (playerId === null) {
     // Don't know who this is, have them select one of the players
-    return <NotPlayersTurnPage onClaimPlayer={setPlayerId} players={players} />; 
+    return (
+      <NotPlayersTurnPage 
+        listing={listing}
+        onClaimPlayer={setPlayerId} 
+        players={players}
+        price={totalPrice}
+      />
+    ); 
   }
 
   const player = players.find(value => value.id === playerId);
@@ -62,6 +71,7 @@ function getFormattedPageModel(splitId: number): Props {
   const splitData = retrieveSplit(splitId);
   return {
     splitId: splitData.id,
+    listing: splitData.listing,
     pendingPlayers: splitData.pendingPlayers || null,
     result: splitData.result || null,
     rooms: splitData.rooms,
