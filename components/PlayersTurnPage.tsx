@@ -1,17 +1,20 @@
-import { Player, Room } from "helpers/Types";
+import { Listing, Player, Room } from "helpers/Types";
 import { useMemo, useState } from "react";
 
 import Button from "./Button";
 import Headline from "./Headline";
 import Input from "./Input";
+import ListingPreviewRow from "./ListingPreviewRow";
 import nullthrows from "nullthrows";
 
 export default function PlayersTurnPage({
+  listing,
   onSubmit,
   player,
   rooms,
   totalPrice,
 }: {
+  listing: Listing | null,
   onSubmit: (bids: number[]) => void,
   player: Player,
   rooms: Room[],
@@ -22,8 +25,8 @@ export default function PlayersTurnPage({
     leastPreferredId,
     pickLeastPreferred,
     setBidForRoom,
-  ] = useBidsFields(rooms);
-  const submitDisabled = Object.values(bids).some(value => value == null);
+  ] = useBidsFields(rooms, totalPrice);
+  const submitDisabled = Object.values(bids).some(field => field.value == null || field.error != null);
   const handleClickSubmit = () => {
     onSubmit(orderedBids(bids, rooms));
   };
@@ -33,52 +36,67 @@ export default function PlayersTurnPage({
       ? [] 
       : rooms.filter(room => room.id !== leastPreferredId);
   return (
-    <div className="flex min-h-screen h-screen-ios min-h-screen-ios flex-col items-center py-20">
-      <main className="flex w-full flex-1 flex-col items-center px-8">
-        <div className="flex w-full flex-col items-center">
-          <Headline>{player.name}</Headline>
-
-          <div className="self-start w-full">
-            <p className="mt-4">Select your <b>least</b> preferred room</p>
-            <select 
-                className="block
-                      w-full
-                      mt-1
-                      rounded-md
-                      border-gray-300
-                      shadow-sm
-                      focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                onChange={(event) => pickLeastPreferred(parseInt(event.currentTarget.value))}
-                value={leastPreferredId}
-            >
-              <option value={-1}></option>
-              {rooms.map(({id, name}) => {
-                return <option key={id} value={id}>{name}</option>
-              })}
-            </select>
-
-            <BidInstructions leastPreferredId={leastPreferredId} rooms={rooms} totalPrice={totalPrice} />
-            
-            {
-              remainingRooms.map(({id, name}) => {
-                return (
-                  <label className="block mt-8" key={id}>
-                    <span className="">{name}</span>
-                    <Input 
-                      onChange={(event) => setBidForRoom(id, event.currentTarget.value)}
-                      value={bids[id] || ""}
-                    />
-                  </label>
-                );
-              })
-            }
-          </div>
-          <div className="mt-10">
-            <Button disabled={submitDisabled} onClick={submitDisabled ? () => {} : handleClickSubmit}>Submit</Button>
-          </div>
+    <>
+      {listing != null && (
+        <div className="fixed top-0 shadow bg-slate-100 w-full">
+          <ListingPreviewRow {...listing} price={totalPrice} />
         </div>
-      </main>
-    </div>
+      )}
+      <div className="flex min-h-screen h-screen-ios min-h-screen-ios flex-col items-center pt-[134px] pb-20">
+        <main className="flex w-full flex-1 flex-col items-center px-8">
+          <div className="flex w-full flex-col items-center">
+            <Headline>{player.name}</Headline>
+
+            <div className="self-start w-full">
+              <p className="mt-4">Select your <b>least</b> preferred room</p>
+              <select 
+                  className="block
+                        w-full
+                        mt-1
+                        rounded-md
+                        border-gray-300
+                        shadow-sm
+                        focus:border-emerald-300 focus:ring focus:ring-emerald-200 focus:ring-opacity-50"
+                  onChange={(event) => pickLeastPreferred(parseInt(event.currentTarget.value))}
+                  value={leastPreferredId}
+              >
+                <option value={-1}></option>
+                {rooms.map(({id, name}) => {
+                  return <option key={id} value={id}>{name}</option>
+                })}
+              </select>
+
+              <BidInstructions leastPreferredId={leastPreferredId} rooms={rooms} totalPrice={totalPrice} />
+              
+              {
+                remainingRooms.map(({id, name}) => {
+                  const error = bids[id].error;
+                  return (
+                    <label className="block mt-8" key={id}>
+                      <span className="">{name}</span>
+                      <Input 
+                        max={totalPrice}
+                        onChange={(event) => setBidForRoom(id, event.currentTarget.value)}
+                        type="number"
+                        value={bids[id].value || ""}
+                      />
+                      {
+                        error != null && (
+                          <div className="error mt-2">{error}</div>
+                        )
+                      }
+                    </label>
+                  );
+                })
+              }
+            </div>
+            <div className="mt-10">
+              <Button disabled={submitDisabled} onClick={submitDisabled ? () => {} : handleClickSubmit}>Submit</Button>
+            </div>
+          </div>
+        </main>
+      </div>
+    </>
   )
 }
 
@@ -105,19 +123,23 @@ function BidInstructions({
 }
 
 function orderedBids(bidsById: BidMap, rooms: Room[]): number[] {
-  return rooms.map(room => nullthrows(bidsById[room.id]));
+  return rooms.map(room => nullthrows(bidsById[room.id].value));
 }
 
-type BidMap = {[key: number]: number | null};
+type BidMap = {[key: number]: {value: number | null, error: string | null}};
 function emptyMap(rooms: Room[]): BidMap {
   return rooms.reduce((accum: BidMap, room) => {
-    accum[room.id] = null;
+    accum[room.id] = {
+      value: null,
+      error: null,
+    };
     return accum;
   }, {});
 }
 
 function useBidsFields(
-  rooms: Room[]
+  rooms: Room[],
+  totalPrice: number,
 ): [
   bids: BidMap, 
   leastPreferredId: number,
@@ -133,7 +155,7 @@ function useBidsFields(
 
   const pickLeastPreferred = (id: number) => {
     const newBids = emptyMap(rooms);
-    newBids[id] = 0;
+    newBids[id].value = 0;
     setLeastPreferredId(id);
     setBids(newBids);
   };
@@ -142,7 +164,10 @@ function useBidsFields(
       ...bids,
     };
     const bid = (value == null || value.length === 0 || isNaN(parseInt(value))) ? null : parseInt(value);
-    newBids[id] = bid;
+    newBids[id] = {
+      error: newBids[id].error = bid != null && bid >= totalPrice ? `You cannot bid more than the total price` : null,
+      value: bid,
+    };
     setBids(newBids);
   };
 

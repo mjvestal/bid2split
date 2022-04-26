@@ -3,27 +3,35 @@ import { Listing, Player } from "helpers/Types";
 import Button from "./Button"
 import Center from "./Center";
 import Headline from "./Headline"
-import Link from "next/link";
 import ListingPreviewCard from "./ListingPreviewCard";
+import ShareSplitInput from "./ShareSplitInput";
 import VerticalCenterLayout from "./VerticalCenterLayout";
 import { useState } from "react";
 
-export default function NotPlayersTurnPage({
+export default function CreateSuccessPage({
   listing,
   onClaimPlayer,
   players,
   price,
+  splitUid,
 }: {
   listing: Listing | null,
   onClaimPlayer: (id: number) => void,
   players: Player[],
   price: number,
+  splitUid: string,
 }) {
   const [selectedPlayer, setSelectedPlayer] = useState(-1);
   return (
     <VerticalCenterLayout>
-      <Hero listing={listing} />
-      <HowItWorks />
+      <Headline level={1}>Success!</Headline>
+      <p className="mt-2">
+        Send a link to your group so they can submit their bids.
+      </p>
+      <div className="mt-2 w-full">
+        <ShareSplitInput splitUid={splitUid} />
+      </div>
+      
       <Listing listing={listing} price={price} />
       <section className="mt-8 border-t pt-8 container mx-auto">
         <Headline level={2}>Get started</Headline>
@@ -60,55 +68,6 @@ export default function NotPlayersTurnPage({
       </section>
     </VerticalCenterLayout>
   )
-}
-
-function Hero({
-  listing,
-}: {
-  listing: Listing | null,
-}) {
-  return (
-    <section>
-      {
-        isAirbnb(listing) ? (
-          <Headline>Split your Airbnb fairly</Headline>
-        ) : (
-          <Headline>Split your rental fairly</Headline>
-        )
-      }
-      <p className="mt-8">Divide the cost of your rental so that everyone is happy</p>
-    </section>
-  )
-}
-
-function HowItWorks() {
-  return (
-    <section className="mt-8 border-t pt-8">
-      <Headline level={2}>How it works</Headline>
-      <p className="mt-4">
-        Each person will select their least preferred sleeping area then bid
-        on how much more they are willing to pay for each of the other sleeping
-        areas.
-      </p>
-      <p className="mt-4">
-        Once every one has submitted bids, an algorithm will assign rooms and
-        fairly divide the total cost.
-      </p>
-      <p className="mt-4">
-        If you are assigned to your least preferred sleeping area, you will
-        pay less than if everyone paid the same.
-      </p>
-      <div className="mt-8">
-        <Center>
-          <Link href="/example"><a className="text-cyan-600">See an example</a></Link>
-        </Center>
-      </div>
-    </section>
-  )
-}
-
-function isAirbnb(listing: Listing | null): boolean {
-  return listing != null && listing.domain.indexOf('airbnb.com') > 0;
 }
 
 function Listing({

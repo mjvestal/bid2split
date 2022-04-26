@@ -1,28 +1,6 @@
 [
   {
     "id": 1,
-    "game_id": -1,
-    "name": "Jane",
-    "bids": [
-      100,
-      0
-    ],
-    "room": 1,
-    "rent": 100
-  },
-  {
-    "id": 2,
-    "game_id": -1,
-    "name": "John",
-    "bids": [
-      50,
-      0
-    ],
-    "room": 2,
-    "rent": 50
-  },
-  {
-    "id": 1,
     "game_id": 1,
     "name": "Jane",
     "bids": [
@@ -77,18 +55,40 @@
     "id": 1,
     "game_id": 2,
     "name": "Peter",
-    "bids": null
+    "bids": null,
+    "room": null,
+    "rent": null
   },
   {
     "id": 2,
     "game_id": 2,
     "name": "Paul",
-    "bids": null
+    "bids": null,
+    "room": null,
+    "rent": null
   },
   {
     "id": 3,
     "game_id": 2,
     "name": "Matthew",
-    "bids": null
+    "bids": null,
+    "room": null,
+    "rent": null
+  },
+  {
+    "id": 1,
+    "game_id": 3,
+    "name": "Avery",
+    "bids": null,
+    "room": null,
+    "rent": null
+  },
+  {
+    "id": 2,
+    "game_id": 3,
+    "name": "Kennedy",
+    "bids": null,
+    "room": null,
+    "rent": null
   }
 ]

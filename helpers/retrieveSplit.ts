@@ -1,8 +1,8 @@
-import {EntPlayer, getPendingPlayersBySplitId, getPlayersBySplitId} from './players-repo';
+import {EntPlayer, getPlayersBySplitId} from './players-repo';
 import { Listing, Player, PlayerRoomRent, PlayerWithBids, Room, SplitType, UnsolvedSplit } from './Types';
+import {getSplitById, getSplitByUid} from './splits-repo';
 
 import {getRoomsBySplitId} from './rooms-repo';
-import {getSplitById} from './splits-repo';
 import nullthrows from 'nullthrows';
 
 export function retrieveUnsolvedSplit(id: number): UnsolvedSplit {
@@ -50,11 +50,12 @@ function getSplitResult(players: EntPlayer[], rooms: Room[]): PlayerRoomRent[] {
   }, []).sort((a, b) => a.rent - b.rent);
 }
 
-export default function retrieveSplit(id: number): SplitType {
-  const split = getSplitById(id);
+export default function retrieveSplit(uid: string): SplitType {
+  const split = getSplitByUid(uid);
   if (split == null) {
-    throw Error(`No split for ID: ${id}`);
+    throw Error(`No split for ID: ${uid}`);
   }
+  const id = split.id;
   const rooms: Room[] = getRoomsBySplitId(id)?.map((room) => {
     return {
       id: room.room_number,

@@ -13,8 +13,8 @@ export default function createSplitHelper({
   players: {name: string}[],
   rooms: {name: string}[],
   totalPrice: number,
-}): number {
-  const splitId = createSplit({
+}): string {
+  const split = createSplit({
     rooms: rooms.length,
     listingDomain: listing?.host || null,
     listingImage: listing?.image || null,
@@ -22,7 +22,7 @@ export default function createSplitHelper({
     listingUrl: listing?.url || null,
     totalPrice,
   });
-  createPlayers(splitId, players);
-  createRooms(splitId, rooms);
-  return splitId;
+  createPlayers(split.id, players);
+  createRooms(split.id, rooms);
+  return split.uid;
 }

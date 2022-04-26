@@ -3,7 +3,7 @@ import { ReactChild } from "react";
 export default function VerticalCenterLayout({
   children
 }: {
-  children: ReactChild[]
+  children: ReactChild | ReactChild[]
 }) {
   return (
     <div className="flex min-h-screen h-screen-ios min-h-screen-ios flex-col items-center py-2">

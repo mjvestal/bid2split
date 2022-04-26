@@ -6,11 +6,13 @@ import { useState } from "react";
 export default function MiscellaneousFormFields({
   onChangeListingUrl,
   onChangePrice,
+  showErrors,
   totalPrice,
   listingUrl,
 }: {
   onChangeListingUrl: (url: string) => void,
   onChangePrice: (price: number) => void,
+  showErrors: boolean,
   totalPrice: number,
   listingUrl: string,
 }) {
@@ -28,6 +30,7 @@ export default function MiscellaneousFormFields({
         <span className="">Total price</span>
         <Input
           onChange={handlePriceChange} 
+          required={showErrors}
           type="number"
           value={totalPrice > 0 ? totalPrice : ''}
         />
@@ -37,6 +40,7 @@ export default function MiscellaneousFormFields({
         <Input
           onChange={handleUrlChange} 
           placeholder="https://www.airbnb.com/rooms/12345"
+          type="url"
           value={listingUrl}
         />
       </label>

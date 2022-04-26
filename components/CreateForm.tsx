@@ -13,6 +13,7 @@ export default function CreateForm() {
   const [people, setPeople] = useState(['', '']);
   const [totalPrice, setTotalPrice] = useState(-1);
   const [listingUrl, setListingUrl] = useState('');
+  const [errors, setErrors] = useState<string[]>([]);
   const router = useRouter();
 
   const handleChangeBedrooms = (newBedrooms: string[]) => {
@@ -21,23 +22,39 @@ export default function CreateForm() {
       return;
     }
     // Number of bedrooms changed, so update people array to match
-    const newPeople = newBedrooms.map((_, index) => {
-      return people[index] || '';
+    const newPeople = ['', ''];
+    newBedrooms.filter(room => room.trim().length > 0).forEach((_, index) => {
+      newPeople[index] = people[index] || '';
     });
     setPeople(newPeople);
   };
 
   const validateForm = () => {
+    const errors = [];
     const describedRooms = bedrooms.filter(room => room.trim().length > 0);
     const namedPeople = people.filter(person => person.trim().length > 0);
-    if (describedRooms.length !== namedPeople.length) {
-      return false;
+    if (describedRooms.length < 2) {
+      errors.push('At least 2 rooms are required');
     }
-    return listingUrl.length === 0 || urlRegEx.test(listingUrl);
+    if (namedPeople.length < 2) {
+      errors.push('At least 2 people are required');
+    }
+    if (describedRooms.length !== namedPeople.length) {
+      errors.push('The number of rooms and number of people must match.');
+    }
+    if (listingUrl.length > 0 && !urlRegEx.test(listingUrl)) {
+      errors.push('Invalid listing URL');
+    }
+    if (totalPrice < 0) {
+      errors.push('Price is required');
+    }
+    return errors;
   }
 
   const createGame = async () => {
-    if (!validateForm()) {
+    const currentErrors = validateForm();
+    if (currentErrors.length > 0) {
+      setErrors(currentErrors);
       return;
     }
     const response = await fetch('/api/game', {
@@ -55,19 +72,21 @@ export default function CreateForm() {
     });
     const game = await response.json();
     if (game.gameId) {
-      router.push(`/split/${game.gameId}`);
+      const url = `/split/${game.gameId}`;
+      router.push(`${url}?success`, url);
     }
   }
 
   return (
     <div>
-      <BedroomsFormSection bedrooms={bedrooms} onChange={handleChangeBedrooms} />
-      <PeopleFormSection people={people} onChange={setPeople} />
+      <BedroomsFormSection bedrooms={bedrooms} onChange={handleChangeBedrooms} showErrors={errors.length > 0} />
+      <PeopleFormSection people={people} onChange={setPeople} showErrors={errors.length > 0} />
       <MiscellaneousFormFields 
         listingUrl={listingUrl}
+        showErrors={errors.length > 0}
         totalPrice={totalPrice}
         onChangeListingUrl={setListingUrl}
-        onChangePrice={setTotalPrice} 
+        onChangePrice={setTotalPrice}
       />
       <div className="mt-4 flex items-center justify-center">
         <Button onClick={createGame}>Start</Button>

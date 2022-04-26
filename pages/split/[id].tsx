@@ -1,6 +1,7 @@
 import type {GetServerSideProps, GetServerSidePropsContext} from 'next'
 import { Listing, MutatedSplit, Player, PlayerRoomRent, Room } from 'helpers/Types';
 
+import CreateSuccessPage from '@/components/CreateSuccessPage';
 import NotPlayersTurnPage from '../../components/NotPlayersTurnPage';
 import PendingPlayersPage from '../../components/PendingPlayersPage';
 import PlayersTurnPage from '../../components/PlayersTurnPage';
@@ -11,7 +12,9 @@ import usePlayer from '../../components/hooks/usePlayer';
 import {useState} from 'react';
 
 type Props = {
+  isSuccess: boolean,
   splitId: number,
+  splitUid: string,
   listing: Listing | null,
   pendingPlayers: Player[] | null,
   result: PlayerRoomRent[] | null,
@@ -20,7 +23,9 @@ type Props = {
 }
 
 export default function SplitId({
+  isSuccess,
   splitId,
+  splitUid,
   listing,
   pendingPlayers,
   result,
@@ -43,6 +48,17 @@ export default function SplitId({
 
   if (playerId === null) {
     // Don't know who this is, have them select one of the players
+    if (isSuccess) {
+      return (
+        <CreateSuccessPage
+          listing={listing}
+          onClaimPlayer={setPlayerId} 
+          players={players}
+          price={totalPrice}
+          splitUid={splitUid}
+        />
+      )
+    }
     return (
       <NotPlayersTurnPage 
         listing={listing}
@@ -59,6 +75,7 @@ export default function SplitId({
   }
   return (
     <PlayersTurnPage
+      listing={listing}
       onSubmit={handleSubmit}
       player={player}
       rooms={rooms}
@@ -67,8 +84,8 @@ export default function SplitId({
   );
 }
 
-function getFormattedPageModel(splitId: number): Props {
-  const splitData = retrieveSplit(splitId);
+function getFormattedPageModel(splitUid: string) {
+  const splitData = retrieveSplit(splitUid);
   return {
     splitId: splitData.id,
     listing: splitData.listing,
@@ -80,17 +97,21 @@ function getFormattedPageModel(splitId: number): Props {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context: GetServerSidePropsContext) => {
-  const gameIdString = context.params?.id;
-  if (gameIdString == null) {
+  const splitUid = context.params?.id;
+  if (splitUid == null) {
     // TODO redirect
-    throw Error('Game not found');
+    throw Error('Split not found');
   }
-  if (Array.isArray(gameIdString)) {
+  if (Array.isArray(splitUid)) {
     throw Error('Unexpected input');
   }
-  const gameId = parseInt(gameIdString);
+  const isSuccess = context.query?.success != null;
   return {
-    props: getFormattedPageModel(gameId),
+    props: {
+      ...getFormattedPageModel(splitUid),
+      isSuccess,
+      splitUid,
+    },
   }
 }
 
@@ -116,7 +137,6 @@ function useSplitState(
     });
     const responseObj = await response.json();
     const result: MutatedSplit = responseObj.result;
-    console.log(result);
     if (result.pendingPlayers) {
       setPendingPlayers(result.pendingPlayers);
       return;

@@ -1,8 +1,13 @@
 [
   {
     "id": 1,
+    "listing_domain": null,
+    "listing_image": null,
+    "listing_title": null,
+    "listing_url": null,
     "rooms": 4,
-    "total_price": 1000
+    "total_price": 1000,
+    "uid": "qYVu85IFk9Z"
   },
   {
     "id": 2,
@@ -11,6 +16,17 @@
     "listing_title": "Cabin #4 2 bedrooms in Grand Lake w/ Hot Tub",
     "listing_url": "https://www.airbnb.com/rooms/8904463",
     "rooms": 3,
-    "total_price": 290
+    "total_price": 290,
+    "uid": "qYVu85IFk9W"
+  },
+  {
+    "id": 3,
+    "listing_domain": null,
+    "listing_image": null,
+    "listing_title": null,
+    "listing_url": null,
+    "rooms": 2,
+    "total_price": 300,
+    "uid": "DgBYfvspk5c"
   }
 ]

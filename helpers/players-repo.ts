@@ -11,17 +11,11 @@ export type EntPlayer = {
 }
 
 // Keep array in memory
-let players = playersJson;
+let players: EntPlayer[] = playersJson;
 
 /* READ */
 export function getPlayersBySplitId(splitId: number): EntPlayer[] {
   return players.filter(x => x.game_id.toString() === splitId.toString());
-}
-
-export function getPendingPlayersBySplitId(splitId: number): EntPlayer[] {
-  return players.filter(x => {
-    return x.game_id.toString() === splitId.toString() && x.bids == null;
-  });
 }
 
 export function getPlayerIndexBySplitAndPlayerId(splitId: number, playerId: number): number {
@@ -31,11 +25,13 @@ export function getPlayerIndexBySplitAndPlayerId(splitId: number, playerId: numb
 /* CREATE */
 export function createPlayers(splitId: number, draftPlayers: Array<{name: string}>) {
   draftPlayers.forEach((player, index: number) => {
-    const newPlayer = {
+    const newPlayer: EntPlayer = {
       id: index + 1,
       game_id: splitId,
       name: player.name,
       bids: null,
+      room: null,
+      rent: null,
     };
   
     players.push(newPlayer);

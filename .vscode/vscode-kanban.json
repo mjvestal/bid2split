@@ -4,32 +4,14 @@
       "assignedTo": {
         "name": "matt_vestal"
       },
-      "creation_time": "2022-04-22T00:13:07.666Z",
-      "id": "2",
-      "prio": 1,
-      "references": [],
-      "title": "Add columns to split table for parsed meta info"
-    },
-    {
-      "assignedTo": {
-        "name": "matt_vestal"
-      },
-      "creation_time": "2022-04-22T00:13:20.168Z",
-      "id": "3",
-      "prio": 1,
-      "references": [],
-      "title": "Render rental card"
-    },
-    {
-      "assignedTo": {
-        "name": "matt_vestal"
-      },
       "creation_time": "2022-04-22T16:43:16.009Z",
       "id": "4",
       "prio": 1,
       "references": [],
       "title": "Switch to real DB"
-    },
+    }
+  ],
+  "in-progress": [
     {
       "assignedTo": {
         "name": "matt_vestal"
@@ -41,7 +23,18 @@
       "title": "Random short text URL instead of numbers"
     }
   ],
-  "in-progress": [
+  "testing": [],
+  "done": [
+    {
+      "assignedTo": {
+        "name": "matt_vestal"
+      },
+      "creation_time": "2022-04-22T00:13:07.666Z",
+      "id": "2",
+      "prio": 1,
+      "references": [],
+      "title": "Add columns to split table for parsed meta info"
+    },
     {
       "assignedTo": {
         "name": "matt_vestal"
@@ -51,8 +44,16 @@
       "prio": 1,
       "references": [],
       "title": "Add field for rental URL"
+    },
+    {
+      "assignedTo": {
+        "name": "matt_vestal"
+      },
+      "creation_time": "2022-04-22T00:13:20.168Z",
+      "id": "3",
+      "prio": 1,
+      "references": [],
+      "title": "Render rental card"
     }
-  ],
-  "testing": [],
-  "done": []
+  ]
 }

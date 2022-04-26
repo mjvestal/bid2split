@@ -17,7 +17,7 @@ describe('Split CRUD', () => {
     });
     it('creates a new split', () => {
       const numberOfSplitsBefore = getAllSplits().length;
-      testSplitId = createSplit(split);
+      testSplitId = createSplit(split).id;
       expect(getAllSplits().length).toEqual(numberOfSplitsBefore + 1);
     });
   });
@@ -28,14 +28,14 @@ describe('Split CRUD', () => {
       deleteSplit(testSplitId);
     });
     it('gets split by id', () => {
-      testSplitId = createSplit(split);
+      testSplitId = createSplit(split).id;
       expect(getSplitById(testSplitId)?.rooms).toEqual(split.rooms);
     });
   });
 
   describe('DELETE', () => {
     const numberOfSplitsBefore = getAllSplits().length;
-    const testSplitId = createSplit(split);
+    const testSplitId = createSplit(split).id;
     deleteSplit(testSplitId);
     // number of splits should be back to where it started
     expect(getAllSplits().length).toEqual(numberOfSplitsBefore);

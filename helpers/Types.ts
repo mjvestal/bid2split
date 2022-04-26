@@ -18,6 +18,13 @@ export type PlayerRoomRent = {
   rent: number,
 };
 
+export type Listing = {
+  domain: string,
+  image: string,
+  title: string,
+  url: string,
+};
+
 export type SplitType = {
   id: number,
   listing: Listing | null,
@@ -27,21 +34,14 @@ export type SplitType = {
   totalPrice: number,  
 };
 
-export type UnsolvedSplit = {
-  id: number,
-  players: PlayerWithBids[],
-  rooms: Room[],
-  totalPrice: number,  
-};
-
 export type MutatedSplit = {
   pendingPlayers?: Player[],
   result?: PlayerRoomRent[],
 }
 
-export type Listing = {
-  domain: string,
-  image: string,
-  title: string,
-  url: string,
+export type UnsolvedSplit = {
+  id: number,
+  players: PlayerWithBids[],
+  rooms: Room[],
+  totalPrice: number,  
 };

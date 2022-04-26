@@ -7,9 +7,9 @@ export default function Headline({
 }) {
   switch(level) {
     case 1:
-      return <h1 className="text-6xl font-hand">{children}</h1>;
+      return <h1 className="text-6xl font-hand text-emerald-900">{children}</h1>;
     case 2:
     default:
-      return <h2 className="text-4xl font-hand">{children}</h2>;
+      return <h2 className="text-4xl font-hand text-emerald-900">{children}</h2>;
   } 
 }

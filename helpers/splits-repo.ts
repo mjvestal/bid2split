@@ -1,4 +1,5 @@
 import fs from 'fs'
+import { nanoid } from 'nanoid/non-secure';
 import splitsJson from '../data/splits.json'
 
 export type EntSplit = {
@@ -9,6 +10,7 @@ export type EntSplit = {
   listing_url: string | null,
   rooms: number,
   total_price: number,
+  uid: string,
 }
 
 // Keep array in memory
@@ -23,22 +25,26 @@ export function getSplitById(id: number): EntSplit | undefined {
   return splits.find(x => x.id.toString() === id.toString());
 }
 
+export function getSplitByUid(uid: string): EntSplit | undefined {
+  return splits.find(x => x.uid === uid);
+}
+
 /* CREATE */
 export function createSplit({
-  listingDomain,
-  listingImage,
-  listingTitle,
-  listingUrl,
+  listingDomain = null,
+  listingImage = null,
+  listingTitle = null,
+  listingUrl = null,
   rooms,
   totalPrice,
 }: {
-  listingDomain: string | null,
-  listingImage: string | null,
-  listingTitle: string | null,
-  listingUrl: string | null,
+  listingDomain?: string | null,
+  listingImage?: string | null,
+  listingTitle?: string | null,
+  listingUrl?: string | null,
   rooms: number,
   totalPrice: number
-}): number {
+}): EntSplit {
   // generate
   const newGame: EntSplit = {
     id: splits.length ? Math.max(...splits.map(x => x.id)) + 1 : 1,
@@ -48,12 +54,13 @@ export function createSplit({
     listing_url: listingUrl,
     rooms,
     total_price: totalPrice,
+    uid: nanoid(11),
   }
 
   splits.push(newGame);
   saveData();
 
-  return newGame.id;
+  return newGame;
 }
 
 /* DELETE */

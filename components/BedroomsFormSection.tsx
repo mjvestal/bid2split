@@ -15,9 +15,11 @@ const PLACEHOLDERS = [
 export default function BedroomsFormSection({
   bedrooms,
   onChange,
+  showErrors,
 }: {
   bedrooms: string[],
   onChange: (bedrooms: string[]) => void,
+  showErrors: boolean,
 }) {
   const handleBedroomChange = (value: string, changedIndex: number) => {
     const newBedrooms = bedrooms.map((bedroom: string, index: number) => {
@@ -43,7 +45,7 @@ export default function BedroomsFormSection({
               key={index}
               onChange={(event) => {handleBedroomChange(event.target.value, index)}}
               placeholder={PLACEHOLDERS[index]}
-              required={index < 2}
+              required={showErrors && index < 2}
               value={bedroom}
             />
           )

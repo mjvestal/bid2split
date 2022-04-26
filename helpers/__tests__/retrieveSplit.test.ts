@@ -1,21 +1,30 @@
 import { SplitType, UnsolvedSplit } from 'helpers/Types';
+import {getSplitById, getSplitByUid} from '../splits-repo';
 import retrieveSplit, {retrieveUnsolvedSplit} from '../retrieveSplit';
 
 import {getPlayersBySplitId} from '../players-repo';
 import {getRoomsBySplitId} from '../rooms-repo';
-import {getSplitById} from '../splits-repo';
 
 jest.mock('../splits-repo');
 jest.mock('../players-repo');
 jest.mock('../rooms-repo');
 
 const GAME_ID = 2;
+const GAME_UID = "abc";
 
-describe('retrieveUnsolvedSplit', () => {
-  describe('game exists with single decision', () => {
+describe('retrieveSplit', () => {
+  describe('game exists', () => {
     beforeEach(() => {
       // Mock game
       (getSplitById as jest.Mock).mockImplementation(() => {
+        return {
+          id: GAME_ID,
+          rooms: 4,
+          total_price: 1000,
+        }
+      });
+
+      (getSplitByUid as jest.Mock).mockImplementation(() => {
         return {
           id: GAME_ID,
           rooms: 4,
@@ -71,6 +80,47 @@ describe('retrieveUnsolvedSplit', () => {
     });
 
     it('should return existing game', () => {
+      const game = retrieveSplit(GAME_UID);
+      const expected: SplitType = {
+        id: GAME_ID,
+        listing: null,
+        pendingPlayers: [
+          {
+            id: 1,
+            name: 'John',
+          }, {
+            id: 2,
+            name: 'Paul',
+          }, {
+            id: 3,
+            name: 'Ringo',
+          }, {
+            id: 4,
+            name: 'George',
+          }
+        ],
+        rooms: [{
+          name: 'Master',
+          id: 1,
+        }, {
+          name: 'Suite 2',
+          id: 2,
+        }, {
+          name: 'Shared bath',
+          id: 3,
+        }, {
+          name: 'Twin beds',
+          id: 4,
+        }],
+        totalPrice: 1000,
+      }
+      expect(game).toEqual(expected);
+    });
+  });
+
+  describe('retrieveUnsolvedSplit', () => {
+
+    it('should return existing game', () => {
       const game = retrieveUnsolvedSplit(GAME_ID);
       const expected: UnsolvedSplit = {
         id: GAME_ID,
@@ -110,6 +160,5 @@ describe('retrieveUnsolvedSplit', () => {
       }
       expect(game).toEqual(expected);
     });
-  })
-  
-})
+  });
+});
