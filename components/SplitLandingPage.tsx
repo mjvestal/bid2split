@@ -1,63 +1,41 @@
 import { Listing, Player } from "helpers/Types";
 
-import Button from "./Button"
 import Center from "./Center";
 import Headline from "./Headline"
 import Link from "next/link";
 import ListingPreviewCard from "./ListingPreviewCard";
 import VerticalCenterLayout from "./VerticalCenterLayout";
-import { useState } from "react";
+import SelectPlayerSection from "./SelectPlayerSection";
+import WelcomeBackSection from "./WelcomeBackSection";
+import { useSplitContext } from "lib/useSplitContext";
+import nullthrows from "nullthrows";
 
 export default function NotPlayersTurnPage({
-  listing,
   onClaimPlayer,
-  players,
-  price,
+  player,
 }: {
-  listing: Listing | null,
   onClaimPlayer: (id: number) => void,
-  players: Player[],
-  price: number,
+  player: Player | null,
 }) {
-  const [selectedPlayer, setSelectedPlayer] = useState(-1);
+  const split = useSplitContext();
+  const {
+    listing,
+    pendingPlayers,
+    totalPrice,
+    uid,
+  } = split;
   return (
     <VerticalCenterLayout>
       <Hero listing={listing} />
       <HowItWorks />
-      <Listing listing={listing} price={price} />
-      <section className="mt-8 border-t pt-8 container mx-auto">
-        <Headline level={2}>Get started</Headline>
-        <p className="mt-4">Who are you submitting a bid for?</p>
-        <div className="self-start">
-        {
-          players.map(({id, name}) => {
-            return (
-              <div key={id}>
-                <label className="mt-2 inline-flex items-center">
-                  <input 
-                    checked={id === selectedPlayer}
-                    name="price_option"
-                    onChange={(event) => {setSelectedPlayer(parseInt(event.currentTarget.value))}}
-                    type="radio"
-                    value={id}
-                  />
-                  <span className="ml-2 text-xl">{name}</span>
-                </label>
-              </div>
-            )
-          })
-        }
-        </div>
-        <div className="mt-10">
-          <Center>
-            <Button
-              disabled={selectedPlayer < 0} 
-              onClick={() => { onClaimPlayer(selectedPlayer)}}>
-              Go
-            </Button>
-          </Center>
-        </div>
-      </section>
+      <Listing listing={listing} price={totalPrice} />
+      {
+        player == null ? (
+          <SelectPlayerSection onClaimPlayer={onClaimPlayer} players={nullthrows(pendingPlayers)} />
+        ) : (
+          <WelcomeBackSection player={player} splitUid={uid} />
+        )
+      }
     </VerticalCenterLayout>
   )
 }

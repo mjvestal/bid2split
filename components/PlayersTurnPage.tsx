@@ -1,4 +1,4 @@
-import { Listing, Player, Room } from "helpers/Types";
+import { Player, Room } from "helpers/Types";
 import { useMemo, useState } from "react";
 
 import Button from "./Button";
@@ -6,20 +6,20 @@ import Headline from "./Headline";
 import Input from "./Input";
 import ListingPreviewRow from "./ListingPreviewRow";
 import nullthrows from "nullthrows";
+import { useSplitContext } from "lib/useSplitContext";
 
 export default function PlayersTurnPage({
-  listing,
   onSubmit,
   player,
-  rooms,
-  totalPrice,
 }: {
-  listing: Listing | null,
   onSubmit: (bids: number[]) => void,
   player: Player,
-  rooms: Room[],
-  totalPrice: number,
 }) {
+  const {
+    listing,
+    rooms,
+    totalPrice
+  } = useSplitContext();
   const [
     bids,
     leastPreferredId,

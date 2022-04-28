@@ -31,7 +31,8 @@ export type SplitType = {
   pendingPlayers?: Player[],
   result?: PlayerRoomRent[],
   rooms: Room[],
-  totalPrice: number,  
+  totalPrice: number,
+  uid: string,
 };
 
 export type MutatedSplit = {

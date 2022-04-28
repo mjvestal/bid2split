@@ -113,6 +113,7 @@ describe('retrieveSplit', () => {
           id: 4,
         }],
         totalPrice: 1000,
+        uid: GAME_UID,
       }
       expect(game).toEqual(expected);
     });

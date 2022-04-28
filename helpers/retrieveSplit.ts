@@ -104,5 +104,6 @@ export default function retrieveSplit(uid: string): SplitType {
     rooms,
     totalPrice: split.total_price,
     result,
+    uid,
   };
 }

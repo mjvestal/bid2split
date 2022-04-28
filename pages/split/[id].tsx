@@ -1,151 +1,109 @@
-import type {GetServerSideProps, GetServerSidePropsContext} from 'next'
-import { Listing, MutatedSplit, Player, PlayerRoomRent, Room } from 'helpers/Types';
+import { Split, SplitContextProvider } from 'lib/useSplitContext';
 
 import CreateSuccessPage from '@/components/CreateSuccessPage';
-import NotPlayersTurnPage from '../../components/NotPlayersTurnPage';
-import PendingPlayersPage from '../../components/PendingPlayersPage';
-import PlayersTurnPage from '../../components/PlayersTurnPage';
-import SettledSplitPage from '../../components/SettledSplitPage';
-import nullthrows from 'nullthrows';
+import type {GetServerSidePropsContext} from 'next'
+import PendingPlayersPage from '@/components/PendingPlayersPage';
+import SettledSplitPage from '@/components/SettledSplitPage';
+import SplitLandingPage from '@/components/SplitLandingPage';
+import { User } from '../api/user';
 import retrieveSplit from 'helpers/retrieveSplit';
-import usePlayer from '../../components/hooks/usePlayer';
-import {useState} from 'react';
+import { useRouter } from 'next/router';
+import { withIronSessionSsr } from "iron-session/next";
 
 type Props = {
   isSuccess: boolean,
-  splitId: number,
-  splitUid: string,
-  listing: Listing | null,
-  pendingPlayers: Player[] | null,
-  result: PlayerRoomRent[] | null,
-  rooms: Room[],
-  totalPrice: number,
+  split: Split,
+  user: User | null,
 }
 
 export default function SplitId({
   isSuccess,
-  splitId,
-  splitUid,
-  listing,
-  pendingPlayers,
-  result,
-  rooms,
-  totalPrice,
+  split,
+  user,
 }: Props) {
-  const [playerId, setPlayerId] = usePlayer();
-  const [players, settledSplit, submitBids] = useSplitState(splitId, pendingPlayers, result);
-  const handleSubmit = (bids: number[]) => {
-    submitBids(nullthrows(playerId), bids);
+  const {
+    id: splitId,
+    pendingPlayers = null,
+    result = null,
+    uid: splitUid,
+  } = split;
+  const router = useRouter();
+  const setPlayerId = async (playerId: number) => {
+    const body = {
+      username: playerId,
+    };
+    const response = await fetch("/api/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    router.push(`/split/${splitUid}/bid`)
+  };
+
+  if (result != null) {
+    return <SettledSplitPage result={result} />;
   }
 
-  if (settledSplit != null) {
-    return <SettledSplitPage result={settledSplit} />;
-  }
-
-  if (players == null) {
+  if (pendingPlayers == null) {
     throw Error("No pending players and no result");
   }
 
-  if (playerId === null) {
-    // Don't know who this is, have them select one of the players
-    if (isSuccess) {
-      return (
-        <CreateSuccessPage
-          listing={listing}
-          onClaimPlayer={setPlayerId} 
-          players={players}
-          price={totalPrice}
-          splitUid={splitUid}
-        />
-      )
-    }
-    return (
-      <NotPlayersTurnPage 
-        listing={listing}
-        onClaimPlayer={setPlayerId} 
-        players={players}
-        price={totalPrice}
-      />
-    ); 
+  const player = user != null ? pendingPlayers.find(value => value.id === parseInt(user.login)) ?? null : null; // TODO
+  if (user != null && player == null) {
+    // Player has submitted bid, so show them who hasn't
+    return <PendingPlayersPage players={pendingPlayers} />;
   }
 
-  const player = players.find(value => value.id === playerId);
-  if (player == null) {
-    return <PendingPlayersPage players={players} />;
-  }
   return (
-    <PlayersTurnPage
-      listing={listing}
-      onSubmit={handleSubmit}
-      player={player}
-      rooms={rooms}
-      totalPrice={totalPrice}
-    />
-  );
+    <SplitContextProvider split={split}>
+      {isSuccess ? (
+        <CreateSuccessPage onClaimPlayer={setPlayerId} />
+      ) : (
+        <SplitLandingPage 
+          onClaimPlayer={setPlayerId} 
+          player={player}
+        />
+      )}
+    </SplitContextProvider>
+  )
 }
 
-function getFormattedPageModel(splitUid: string) {
+function getFormattedSplit(splitUid: string): Split {
   const splitData = retrieveSplit(splitUid);
   return {
-    splitId: splitData.id,
-    listing: splitData.listing,
+    ...splitData,
     pendingPlayers: splitData.pendingPlayers || null,
     result: splitData.result || null,
-    rooms: splitData.rooms,
-    totalPrice: splitData.totalPrice,
   };
 }
 
-export const getServerSideProps: GetServerSideProps = async (context: GetServerSidePropsContext) => {
-  const splitUid = context.params?.id;
-  if (splitUid == null) {
-    // TODO redirect
-    throw Error('Split not found');
-  }
-  if (Array.isArray(splitUid)) {
-    throw Error('Unexpected input');
-  }
-  const isSuccess = context.query?.success != null;
-  return {
-    props: {
-      ...getFormattedPageModel(splitUid),
+export const getServerSideProps = withIronSessionSsr(
+  async function (context: GetServerSidePropsContext) {
+    const user = context.req.session.user ?? null;
+    const splitUid = context.params?.id;
+    if (splitUid == null) {
+      // TODO redirect
+      throw Error('Split not found');
+    }
+    if (Array.isArray(splitUid)) {
+      throw Error('Unexpected input');
+    }
+    const isSuccess = context.query?.success != null;
+    const props: Props = {
       isSuccess,
-      splitUid,
+      split: getFormattedSplit(splitUid),
+      user,
+    };
+    return {
+      props,
+    };
+  },
+  {
+    cookieName: "fairsplit_user_id",
+    password: "n'CVyVf{>_DMatkMq5jF_3^L<+YM<]DaZD&6~45",
+    // secure: true should be used in production (HTTPS) but can't be used in development (HTTP)
+    cookieOptions: {
+      secure: process.env.NODE_ENV === "production",
     },
-  }
-}
-
-function useSplitState(
-  splitId: number,
-  pendingPlayers: Player[] | null,
-  result: PlayerRoomRent[] | null,
-): [Player[] | null, PlayerRoomRent[] | null, (playerId: number, bids: number[]) => void] {
-  const [players, setPendingPlayers] = useState<Player[] | null>(pendingPlayers);
-  const [settledSplit, setSettledSplit] = useState<PlayerRoomRent[] | null>(result);
-
-  const submitBids = async (playerId: number, bids: number[]) => {
-    const response = await fetch('/api/bids', {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        splitId: splitId,
-        bids,
-        playerId,
-      }),
-    });
-    const responseObj = await response.json();
-    const result: MutatedSplit = responseObj.result;
-    if (result.pendingPlayers) {
-      setPendingPlayers(result.pendingPlayers);
-      return;
-    }
-    if (result.result) {
-      setSettledSplit(result.result);
-      return;
-    }
-  };
-
-  return [players, settledSplit, submitBids];
-}
+  },
+);
