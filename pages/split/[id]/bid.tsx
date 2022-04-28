@@ -86,7 +86,6 @@ export const getServerSideProps = withIronSessionSsr(
         },
       };
     }
-    const isSuccess = context.query?.success != null;
     const props: Props = {
       split: getFormattedSplit(splitUid),
       user,
@@ -122,7 +121,6 @@ function useSplitState(
       body: JSON.stringify({
         splitId: splitId,
         bids,
-        playerId,
       }),
     });
     const responseObj = await response.json();

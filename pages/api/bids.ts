@@ -3,15 +3,22 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { areBidsValid } from 'helpers/Validators';
 import createPlayerBid from 'helpers/createPlayerBid';
 import {retrieveUnsolvedSplit} from 'helpers/retrieveSplit';
+import { sessionOptions } from "lib/session";
+import { withIronSessionApiRoute } from "iron-session/next";
 
-export default function handler(request: NextApiRequest, response: NextApiResponse) {
+async function bidRoute(request: NextApiRequest, response: NextApiResponse) {
   if (request.method !== 'PUT') {
     response.status(405).send({ message: 'Only PUT requests allowed' });
     return;
   }
+  const user = request.session.user;
+  if (user == null) {
+    response.status(401).send({ message: 'Unauthorized' });
+    return;
+  }
+  const playerId = parseInt(user.login);
   const {
     splitId,
-    playerId,
     bids,
   } = request.body;
   const splitData = retrieveUnsolvedSplit(splitId);
@@ -35,3 +42,5 @@ export default function handler(request: NextApiRequest, response: NextApiRespon
     result,
   });
 }
+
+export default withIronSessionApiRoute(bidRoute, sessionOptions);
