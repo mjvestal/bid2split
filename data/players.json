@@ -55,7 +55,11 @@
     "id": 1,
     "game_id": 2,
     "name": "Peter",
-    "bids": null,
+    "bids": [
+      20,
+      10,
+      0
+    ],
     "room": null,
     "rent": null
   },

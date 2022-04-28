@@ -1,5 +1,6 @@
 import { MutatedSplit, Player, PlayerRoomRent } from 'helpers/Types';
-import { Split, SplitContextProvider } from 'lib/useSplitContext';
+import { Split, SplitContextProvider, useSplitContext } from 'lib/useSplitContext';
+import useSplitReducer, { setResult, updatePendingPlayers } from "lib/useSplitReducer";
 
 import type {GetServerSidePropsContext} from 'next'
 import PendingPlayersPage from '@/components/PendingPlayersPage';
@@ -19,37 +20,65 @@ export default function Bid({
   split,
   user,
 }: Props) {
+  return (
+    <SplitContextProvider split={split}>
+      <Content user={user} />
+    </SplitContextProvider>
+  )
+}
+
+function Content({
+  user,
+}: {
+  user: User,
+}) {
+  const dispatch = useSplitReducer();
+  const split = useSplitContext();
+
   const {
     id: splitId,
-    pendingPlayers = null,
-    result = null,
-    uid: splitUid,
+    pendingPlayers,
+    result,
   } = split;
-  const [players, settledSplit, onSubmit] = useSplitState(splitId, pendingPlayers, result);
 
-  if (settledSplit != null) {
-    return <SettledSplitPage result={settledSplit} />;
+  if (result != null) {
+    return <SettledSplitPage result={result} />;
   }
 
-  if (players == null) {
+  if (pendingPlayers == null) {
     throw Error("No pending players and no result");
   }
 
-  const player = players.find(value => value.id === parseInt(user.login)) ?? null; // TODO
+  const player = pendingPlayers.find(value => value.id === parseInt(user.login)) ?? null; // TODO
   if (player == null) {
     // Player has submitted bid, so show them who hasn't
-    return <PendingPlayersPage players={players} />;
+    return <PendingPlayersPage players={pendingPlayers} />;
   }
 
-  const handleSubmit = (bids: number[]) => {
-    onSubmit(player.id, bids);
+  const handleSubmit = async (bids: number[]) => {
+    const response = await fetch('/api/bids', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        splitId: splitId,
+        bids,
+      }),
+    });
+    const responseObj = await response.json();
+    const result: MutatedSplit = responseObj.result;
+    if (result.pendingPlayers) {
+      dispatch(updatePendingPlayers(result.pendingPlayers));
+      return;
+    }
+    if (result.result) {
+      dispatch(setResult(result.result));
+      return;
+    }
   };
 
-  return (
-    <SplitContextProvider split={split}>
-      <PlayersTurnPage onSubmit={handleSubmit} player={player} />
-    </SplitContextProvider>
-  )
+  return <PlayersTurnPage onSubmit={handleSubmit} player={player} />
 }
 
 function getFormattedSplit(splitUid: string): Split {
@@ -103,37 +132,3 @@ export const getServerSideProps = withIronSessionSsr(
     },
   },
 );
-
-function useSplitState(
-  splitId: number,
-  pendingPlayers: Player[] | null,
-  result: PlayerRoomRent[] | null,
-): [Player[] | null, PlayerRoomRent[] | null, (playerId: number, bids: number[]) => void] {
-  const [players, setPendingPlayers] = useState<Player[] | null>(pendingPlayers);
-  const [settledSplit, setSettledSplit] = useState<PlayerRoomRent[] | null>(result);
-
-  const submitBids = async (playerId: number, bids: number[]) => {
-    const response = await fetch('/api/bids', {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        splitId: splitId,
-        bids,
-      }),
-    });
-    const responseObj = await response.json();
-    const result: MutatedSplit = responseObj.result;
-    if (result.pendingPlayers) {
-      setPendingPlayers(result.pendingPlayers);
-      return;
-    }
-    if (result.result) {
-      setSettledSplit(result.result);
-      return;
-    }
-  };
-
-  return [players, settledSplit, submitBids];
-}
