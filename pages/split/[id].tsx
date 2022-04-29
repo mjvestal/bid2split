@@ -4,6 +4,7 @@ import type {GetServerSidePropsContext} from 'next'
 import PendingPlayersPage from '@/components/PendingPlayersPage';
 import SettledSplitPage from '@/components/SettledSplitPage';
 import SplitLandingPage from '@/components/SplitLandingPage';
+import { SplitType } from 'helpers/Types';
 import { User } from '../api/user';
 import retrieveSplit from 'helpers/retrieveSplit';
 import { useRouter } from 'next/router';
@@ -73,8 +74,7 @@ function Content({
   return <SplitLandingPage isSuccess={isSuccess} onClaimPlayer={setPlayerId} player={player} />
 }
 
-function getFormattedSplit(splitUid: string): Split {
-  const splitData = retrieveSplit(splitUid);
+function getFormattedSplit(splitData: SplitType): Split {
   return {
     ...splitData,
     pendingPlayers: splitData.pendingPlayers || null,
@@ -87,15 +87,21 @@ export const getServerSideProps = withIronSessionSsr(
     const {
       params,
       req,
+      res,
     } = context;
     const splitUid = params?.id;
-    if (splitUid == null) {
-      // TODO redirect
-      throw Error('Split not found');
+    if (splitUid == null || Array.isArray(splitUid)) {
+      return {
+        notFound: true,
+      }
     }
-    if (Array.isArray(splitUid)) {
-      throw Error('Unexpected input');
+    const split = retrieveSplit(splitUid);
+    if (split == null) {
+      return {
+        notFound: true,
+      }
     }
+
     let user = req.session.user ?? null;
     if (user != null && user.splitUid !== splitUid) {
       req.session.destroy();
@@ -103,7 +109,7 @@ export const getServerSideProps = withIronSessionSsr(
     }
     const props: Props = {
       isSuccess: context.query?.success != null,
-      split: getFormattedSplit(splitUid),
+      split: getFormattedSplit(split),
       user,
     };
     return {

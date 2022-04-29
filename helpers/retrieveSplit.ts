@@ -51,10 +51,10 @@ function getSplitResult(players: EntPlayer[], rooms: Room[]): PlayerRoomRent[] {
   }, []).sort((a, b) => a.rent - b.rent);
 }
 
-export default function retrieveSplit(uid: string): SplitType {
+export default function retrieveSplit(uid: string): SplitType | null {
   const split = getSplitByUid(uid);
   if (split == null) {
-    throw Error(`No split for ID: ${uid}`);
+    return null;
   }
   const id = split.id;
   const rooms: Room[] = getRoomsBySplitId(id)?.map((room) => {

@@ -1,4 +1,4 @@
-import { MutatedSplit, Player, PlayerRoomRent } from 'helpers/Types';
+import { MutatedSplit, Player, PlayerRoomRent, SplitType } from 'helpers/Types';
 import { Split, SplitContextProvider, useSplitContext } from 'lib/useSplitContext';
 import useSplitReducer, { setResult, updatePendingPlayers } from "lib/useSplitReducer";
 
@@ -81,8 +81,7 @@ function Content({
   return <PlayersTurnPage onSubmit={handleSubmit} player={player} />
 }
 
-function getFormattedSplit(splitUid: string): Split {
-  const splitData = retrieveSplit(splitUid);
+function getFormattedSplit(splitData: SplitType): Split {
   return {
     ...splitData,
     pendingPlayers: splitData.pendingPlayers || null,
@@ -97,13 +96,18 @@ export const getServerSideProps = withIronSessionSsr(
       res,
     } = context;  
     const splitUid = context.params?.id;
-    if (splitUid == null) {
-      // TODO redirect
-      throw Error('Split not found');
+    if (splitUid == null || Array.isArray(splitUid)) {
+      return {
+        notFound: true,
+      }
     }
-    if (Array.isArray(splitUid)) {
-      throw Error('Unexpected input');
+    const split = retrieveSplit(splitUid);
+    if (split == null) {
+      return {
+        notFound: true,
+      }
     }
+
     let user = req.session.user ?? null;
     if (user != null && user.splitUid !== splitUid) {
       req.session.destroy();
@@ -123,8 +127,9 @@ export const getServerSideProps = withIronSessionSsr(
         },
       };
     }
+
     const props: Props = {
-      split: getFormattedSplit(splitUid),
+      split: getFormattedSplit(split),
       user,
     };
     return {
