@@ -18,10 +18,10 @@ async function bidRoute(request: NextApiRequest, response: NextApiResponse) {
   }
   const playerId = parseInt(user.login);
   const {
-    splitId,
+    splitUid,
     bids,
   } = request.body;
-  const splitData = retrieveUnsolvedSplit(splitId);
+  const splitData = retrieveUnsolvedSplit(splitUid);
   const players = splitData.players;
 
   // Make sure this player hasn't already submitted bids

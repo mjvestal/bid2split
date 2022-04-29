@@ -1,6 +1,5 @@
-import { Split, SplitContextProvider } from 'lib/useSplitContext';
+import { Split, SplitContextProvider, useSplitContext } from 'lib/useSplitContext';
 
-import CreateSuccessPage from '@/components/CreateSuccessPage';
 import type {GetServerSidePropsContext} from 'next'
 import PendingPlayersPage from '@/components/PendingPlayersPage';
 import SettledSplitPage from '@/components/SettledSplitPage';
@@ -21,13 +20,29 @@ export default function SplitId({
   split,
   user,
 }: Props) {
+  return (
+    <SplitContextProvider split={split}>
+      <Content isSuccess={isSuccess} user={user} />
+    </SplitContextProvider>
+  )
+}
+
+function Content({
+  isSuccess,
+  user,
+}: {
+  isSuccess: boolean,
+  user: User | null
+}) {
+  const router = useRouter();
+  const split = useSplitContext();
+
   const {
-    id: splitId,
-    pendingPlayers = null,
-    result = null,
+    pendingPlayers,
+    result,
     uid: splitUid,
   } = split;
-  const router = useRouter();
+  
   const setPlayerId = async (playerId: number) => {
     const body = {
       username: playerId,
@@ -54,18 +69,7 @@ export default function SplitId({
     return <PendingPlayersPage players={pendingPlayers} />;
   }
 
-  return (
-    <SplitContextProvider split={split}>
-      {isSuccess ? (
-        <CreateSuccessPage onClaimPlayer={setPlayerId} />
-      ) : (
-        <SplitLandingPage 
-          onClaimPlayer={setPlayerId} 
-          player={player}
-        />
-      )}
-    </SplitContextProvider>
-  )
+  return <SplitLandingPage isSuccess={isSuccess} onClaimPlayer={setPlayerId} player={player} />
 }
 
 function getFormattedSplit(splitUid: string): Split {

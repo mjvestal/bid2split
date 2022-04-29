@@ -44,5 +44,6 @@ export type UnsolvedSplit = {
   id: number,
   players: PlayerWithBids[],
   rooms: Room[],
-  totalPrice: number,  
+  totalPrice: number,
+  uid: string,
 };

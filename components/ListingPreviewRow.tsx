@@ -1,3 +1,5 @@
+import ListingDomain from "./ListingDomain";
+
 export default function ListingPreviewRow({
   domain,
   image,
@@ -12,20 +14,29 @@ export default function ListingPreviewRow({
   url: string,
 }) {
   return (
-    <div className="flex items-center px-2 py-2 space-x-4">
-      <a href={url} target="_blank" rel="noreferrer noopener">
-          <img
-            className="rounded object-fill w-48"
-            src={image}
-            alt={title}
-          />
-      </a>
-      <div className="flex-grow ms">
-        <div className="line-clamp-2">
-          <a href={url} target="_blank" rel="noreferrer noopener">{title}</a>
+    <div className="w-full bg-slate-100 shadow-md overflow-hidden">
+      <div className="flex">
+        <div className="shrink-0">
+          <a className="h-full w-24" href={url} target="_blank" rel="noreferrer noopener">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              className="object-cover h-full w-24"
+              src={image}
+              alt={title}
+            />
+          </a>
         </div>
-        <div className="mt-1 uppercase text-xs">{domain}</div>
-        <div className="mt-1"><strong>${price}</strong> total price</div>
+        <div className="p-2">
+          <ListingDomain domain={domain} />
+          <a 
+            className="text-lg leading-tight font-medium line-clamp-2 hover:underline"
+            href={url} 
+            target="_blank" 
+            rel="noreferrer noopener">
+            {title}
+          </a>
+          <div className="mt-1"><strong>${price}</strong> total price</div>
+        </div>
       </div>
     </div>
   )

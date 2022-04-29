@@ -43,5 +43,40 @@
     "game_id": 3,
     "name": "Test",
     "room_number": 2
+  },
+  {
+    "game_id": 4,
+    "name": "King bed with private bath",
+    "room_number": 1
+  },
+  {
+    "game_id": 4,
+    "name": "Room with bunk beds",
+    "room_number": 2
+  },
+  {
+    "game_id": 4,
+    "name": "Other king bed room",
+    "room_number": 3
+  },
+  {
+    "game_id": 5,
+    "name": "Primary suite",
+    "room_number": 1
+  },
+  {
+    "game_id": 5,
+    "name": "Queen room 1",
+    "room_number": 2
+  },
+  {
+    "game_id": 5,
+    "name": "Queen room 2",
+    "room_number": 3
+  },
+  {
+    "game_id": 5,
+    "name": "Sleeper sofa",
+    "room_number": 4
   }
 ]

@@ -21,10 +21,6 @@ export function getAllSplits(): EntSplit[] {
   return splits;
 }
 
-export function getSplitById(id: number): EntSplit | undefined {
-  return splits.find(x => x.id.toString() === id.toString());
-}
-
 export function getSplitByUid(uid: string): EntSplit | undefined {
   return splits.find(x => x.uid === uid);
 }

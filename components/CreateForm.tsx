@@ -78,7 +78,7 @@ export default function CreateForm() {
   }
 
   return (
-    <div>
+    <div className="w-full">
       <BedroomsFormSection bedrooms={bedrooms} onChange={handleChangeBedrooms} showErrors={errors.length > 0} />
       <PeopleFormSection people={people} onChange={setPeople} showErrors={errors.length > 0} />
       <MiscellaneousFormFields 

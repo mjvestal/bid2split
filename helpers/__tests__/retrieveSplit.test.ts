@@ -1,9 +1,9 @@
 import { SplitType, UnsolvedSplit } from 'helpers/Types';
-import {getSplitById, getSplitByUid} from '../splits-repo';
 import retrieveSplit, {retrieveUnsolvedSplit} from '../retrieveSplit';
 
 import {getPlayersBySplitId} from '../players-repo';
 import {getRoomsBySplitId} from '../rooms-repo';
+import {getSplitByUid} from '../splits-repo';
 
 jest.mock('../splits-repo');
 jest.mock('../players-repo');
@@ -16,11 +16,12 @@ describe('retrieveSplit', () => {
   describe('game exists', () => {
     beforeEach(() => {
       // Mock game
-      (getSplitById as jest.Mock).mockImplementation(() => {
+      (getSplitByUid as jest.Mock).mockImplementation(() => {
         return {
           id: GAME_ID,
           rooms: 4,
           total_price: 1000,
+          uid: GAME_UID,
         }
       });
 
@@ -29,6 +30,7 @@ describe('retrieveSplit', () => {
           id: GAME_ID,
           rooms: 4,
           total_price: 1000,
+          uid: GAME_UID,
         }
       });
 
@@ -122,7 +124,7 @@ describe('retrieveSplit', () => {
   describe('retrieveUnsolvedSplit', () => {
 
     it('should return existing game', () => {
-      const game = retrieveUnsolvedSplit(GAME_ID);
+      const game = retrieveUnsolvedSplit(GAME_UID);
       const expected: UnsolvedSplit = {
         id: GAME_ID,
         players: [
@@ -158,6 +160,7 @@ describe('retrieveSplit', () => {
           id: 4,
         }],
         totalPrice: 1000,
+        uid: GAME_UID,
       }
       expect(game).toEqual(expected);
     });

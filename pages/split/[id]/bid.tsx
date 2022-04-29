@@ -36,9 +36,9 @@ function Content({
   const split = useSplitContext();
 
   const {
-    id: splitId,
     pendingPlayers,
     result,
+    uid: splitUid,
   } = split;
 
   if (result != null) {
@@ -62,7 +62,7 @@ function Content({
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        splitId: splitId,
+        splitUid,
         bids,
       }),
     });

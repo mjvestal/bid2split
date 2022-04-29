@@ -26,7 +26,7 @@ export default function ShareSplitInput({
         />
         <button 
           className="inline-flex items-center px-3 text-lg text-emerald-800 bg-gray-100 border border-l-0 border-gray-300 rounded-r-md hover:bg-gray-300"
-          onClick={copyToClipboard}>
+          onPointerDown={copyToClipboard}>
           <FontAwesomeIcon icon={faCopy} size="lg" />
         </button> 
       </div>

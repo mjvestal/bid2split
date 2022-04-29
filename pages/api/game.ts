@@ -2,8 +2,10 @@ import { NextApiRequest, NextApiResponse } from 'next'
 
 import createGame from 'helpers/createSplit';
 import scrapePreview from 'lib/scrapePreview';
+import { sessionOptions } from "lib/session";
+import { withIronSessionApiRoute } from "iron-session/next";
 
-export default async function handler(request: NextApiRequest, response: NextApiResponse) {
+async function createSplitRoute(request: NextApiRequest, response: NextApiResponse) {
   if (request.method !== 'PUT') {
     response.status(405).send({ message: 'Only PUT requests allowed' });
     return;
@@ -24,7 +26,13 @@ export default async function handler(request: NextApiRequest, response: NextApi
     totalPrice,
   });
 
+  // If the user is cookied for a different split, destroy
+  // that session so they have to re-pick which player they are
+  request.session.destroy();
+
   response.status(200).json({
     gameId,
   });
 }
+
+export default withIronSessionApiRoute(createSplitRoute, sessionOptions);

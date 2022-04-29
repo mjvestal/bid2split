@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import Button from "./Button";
 import Headline from "./Headline";
 import Input from "./Input";
-import ListingPreviewRow from "./ListingPreviewRow";
+import VerticalCenterLayout from "./VerticalCenterLayout";
 import nullthrows from "nullthrows";
 import { useSplitContext } from "lib/useSplitContext";
 
@@ -36,67 +36,57 @@ export default function PlayersTurnPage({
       ? [] 
       : rooms.filter(room => room.id !== leastPreferredId);
   return (
-    <>
-      {listing != null && (
-        <div className="fixed top-0 shadow bg-slate-100 w-full">
-          <ListingPreviewRow {...listing} price={totalPrice} />
-        </div>
-      )}
-      <div className="flex min-h-screen h-screen-ios min-h-screen-ios flex-col items-center pt-[134px] pb-20">
-        <main className="flex w-full flex-1 flex-col items-center px-8">
-          <div className="flex w-full flex-col items-center">
-            <Headline>{player.name}</Headline>
+    <VerticalCenterLayout>
+      <Headline>{player.name}</Headline>
 
-            <div className="self-start w-full">
-              <p className="mt-4">Select your <b>least</b> preferred room</p>
-              <select 
-                  className="block
-                        w-full
-                        mt-1
-                        rounded-md
-                        border-gray-300
-                        shadow-sm
-                        focus:border-emerald-300 focus:ring focus:ring-emerald-200 focus:ring-opacity-50"
-                  onChange={(event) => pickLeastPreferred(parseInt(event.currentTarget.value))}
-                  value={leastPreferredId}
-              >
-                <option value={-1}></option>
-                {rooms.map(({id, name}) => {
-                  return <option key={id} value={id}>{name}</option>
-                })}
-              </select>
+      <div className="self-start w-full">
+        <p className="mt-4">Select your <b>least</b> preferred room</p>
+        <select 
+            className="block
+                  w-full
+                  mt-1
+                  rounded-md
+                  border-gray-300
+                  shadow-sm
+                  focus:border-emerald-300 focus:ring focus:ring-emerald-200 focus:ring-opacity-50"
+            onChange={(event) => pickLeastPreferred(parseInt(event.currentTarget.value))}
+            value={leastPreferredId}
+        >
+          <option value={-1}></option>
+          {rooms.map(({id, name}) => {
+            return <option key={id} value={id}>{name}</option>
+          })}
+        </select>
 
-              <BidInstructions leastPreferredId={leastPreferredId} rooms={rooms} totalPrice={totalPrice} />
-              
-              {
-                remainingRooms.map(({id, name}) => {
-                  const error = bids[id].error;
-                  return (
-                    <label className="block mt-8" key={id}>
-                      <span className="">{name}</span>
-                      <Input 
-                        max={totalPrice}
-                        onChange={(event) => setBidForRoom(id, event.currentTarget.value)}
-                        type="number"
-                        value={bids[id].value || ""}
-                      />
-                      {
-                        error != null && (
-                          <div className="error mt-2">{error}</div>
-                        )
-                      }
-                    </label>
-                  );
-                })
-              }
-            </div>
-            <div className="mt-10">
-              <Button disabled={submitDisabled} onClick={submitDisabled ? () => {} : handleClickSubmit}>Submit</Button>
-            </div>
-          </div>
-        </main>
+        <BidInstructions leastPreferredId={leastPreferredId} rooms={rooms} totalPrice={totalPrice} />
+        
+        {
+          remainingRooms.map(({id, name}) => {
+            const error = bids[id].error;
+            return (
+              <label className="block mt-8" key={id}>
+                <span className="">{name}</span>
+                <Input 
+                  max={totalPrice}
+                  min={0}
+                  onChange={(event) => setBidForRoom(id, event.currentTarget.value)}
+                  type="number"
+                  value={bids[id].value || ""}
+                />
+                {
+                  error != null && (
+                    <div className="error mt-2">{error}</div>
+                  )
+                }
+              </label>
+            );
+          })
+        }
       </div>
-    </>
+      <div className="mt-10">
+        <Button disabled={submitDisabled} onClick={submitDisabled ? () => {} : handleClickSubmit}>Submit</Button>
+      </div>
+    </VerticalCenterLayout>
   )
 }
 

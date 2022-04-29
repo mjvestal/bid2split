@@ -98,5 +98,65 @@
     "bids": null,
     "room": null,
     "rent": null
+  },
+  {
+    "id": 1,
+    "game_id": 4,
+    "name": "Drew & Blake",
+    "bids": null,
+    "room": null,
+    "rent": null
+  },
+  {
+    "id": 2,
+    "game_id": 4,
+    "name": "Rory & Tory",
+    "bids": null,
+    "room": null,
+    "rent": null
+  },
+  {
+    "id": 3,
+    "game_id": 4,
+    "name": "Taylor & Mayor",
+    "bids": [
+      50,
+      0,
+      45
+    ],
+    "room": null,
+    "rent": null
+  },
+  {
+    "id": 1,
+    "game_id": 5,
+    "name": "Sam & Paul",
+    "bids": null,
+    "room": null,
+    "rent": null
+  },
+  {
+    "id": 2,
+    "game_id": 5,
+    "name": "Alex & Jordan",
+    "bids": null,
+    "room": null,
+    "rent": null
+  },
+  {
+    "id": 3,
+    "game_id": 5,
+    "name": "Cameron & Ezra",
+    "bids": null,
+    "room": null,
+    "rent": null
+  },
+  {
+    "id": 4,
+    "game_id": 5,
+    "name": "Ezra & Rowan",
+    "bids": null,
+    "room": null,
+    "rent": null
   }
 ]

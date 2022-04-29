@@ -9,11 +9,15 @@ import SelectPlayerSection from "./SelectPlayerSection";
 import WelcomeBackSection from "./WelcomeBackSection";
 import { useSplitContext } from "lib/useSplitContext";
 import nullthrows from "nullthrows";
+import ShareSplitInput from "./ShareSplitInput";
+import listingSite from "lib/listingSite";
 
-export default function NotPlayersTurnPage({
+export default function SplitLandingPage({
+  isSuccess,
   onClaimPlayer,
   player,
 }: {
+  isSuccess: boolean,
   onClaimPlayer: (id: number) => void,
   player: Player | null,
 }) {
@@ -26,8 +30,25 @@ export default function NotPlayersTurnPage({
   } = split;
   return (
     <VerticalCenterLayout>
-      <Hero listing={listing} />
-      <HowItWorks />
+      {
+        isSuccess ? (
+          <>
+            <Headline level={1}>Success!</Headline>
+            <p className="mt-2">
+              Send a link to your group so they can submit their bids.
+            </p>
+            <div className="mt-2 w-full">
+              <ShareSplitInput splitUid={split.uid} />
+            </div>
+          </>
+        ) : (
+          <>
+            <Hero listing={listing} />
+            <HowItWorks />
+          </>
+        )
+      }
+      
       <Listing listing={listing} price={totalPrice} />
       {
         player == null ? (
@@ -45,15 +66,10 @@ function Hero({
 }: {
   listing: Listing | null,
 }) {
+  const site = listingSite(listing);
   return (
     <section>
-      {
-        isAirbnb(listing) ? (
-          <Headline>Split your Airbnb fairly</Headline>
-        ) : (
-          <Headline>Split your rental fairly</Headline>
-        )
-      }
+      <Headline>Split your {site ?? 'rental'} fairly</Headline>
       <p className="mt-8">Divide the cost of your rental so that everyone is happy</p>
     </section>
   )
@@ -85,10 +101,6 @@ function HowItWorks() {
   )
 }
 
-function isAirbnb(listing: Listing | null): boolean {
-  return listing != null && listing.domain.indexOf('airbnb.com') > 0;
-}
-
 function Listing({
   listing,
   price,
@@ -100,9 +112,9 @@ function Listing({
     return null;
   }
   return (
-    <section className="mt-8 border-t pt-8">
+    <section className="mt-8 border-t pt-8 w-full">
       <Headline level={2}>Where you&apos;re staying</Headline>
-      <div className="mt-4">
+      <div className="mt-6">
         <ListingPreviewCard
           domain={listing.domain}
           image={listing.image}
