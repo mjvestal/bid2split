@@ -7,12 +7,16 @@ import { withIronSessionApiRoute } from "iron-session/next";
 export default withIronSessionApiRoute(loginRoute, sessionOptions);
 
 async function loginRoute(req: NextApiRequest, res: NextApiResponse) {
-  const { username } = await req.body;
+  const {
+    playerId,
+    splitUid,
+  } = await req.body;
 
   try {
     const user: User = {
       isLoggedIn: true, 
-      login: username,
+      playerId,
+      splitUid,
     };
     req.session.user = user;
     await req.session.save();

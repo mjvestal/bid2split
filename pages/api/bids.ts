@@ -12,15 +12,23 @@ async function bidRoute(request: NextApiRequest, response: NextApiResponse) {
     return;
   }
   const user = request.session.user;
-  if (user == null) {
+  if (user == null || user.playerId < 0) {
     response.status(401).send({ message: 'Unauthorized' });
     return;
   }
-  const playerId = parseInt(user.login);
+
   const {
     splitUid,
     bids,
   } = request.body;
+
+  if (user.splitUid !== splitUid) {
+    response.status(401).send({ message: 'Unauthorized' });
+    return;
+  }
+
+  const playerId = user.playerId;
+
   const splitData = retrieveUnsolvedSplit(splitUid);
   const players = splitData.players;
 

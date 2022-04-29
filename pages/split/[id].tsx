@@ -45,7 +45,8 @@ function Content({
   
   const setPlayerId = async (playerId: number) => {
     const body = {
-      username: playerId,
+      playerId: playerId,
+      splitUid,
     };
     const response = await fetch("/api/login", {
       method: "POST",
@@ -63,7 +64,7 @@ function Content({
     throw Error("No pending players and no result");
   }
 
-  const player = user != null ? pendingPlayers.find(value => value.id === parseInt(user.login)) ?? null : null; // TODO
+  const player = user != null ? pendingPlayers.find(value => value.id === user.playerId) ?? null : null;
   if (user != null && player == null) {
     // Player has submitted bid, so show them who hasn't
     return <PendingPlayersPage players={pendingPlayers} />;
@@ -83,8 +84,11 @@ function getFormattedSplit(splitUid: string): Split {
 
 export const getServerSideProps = withIronSessionSsr(
   async function (context: GetServerSidePropsContext) {
-    const user = context.req.session.user ?? null;
-    const splitUid = context.params?.id;
+    const {
+      params,
+      req,
+    } = context;
+    const splitUid = params?.id;
     if (splitUid == null) {
       // TODO redirect
       throw Error('Split not found');
@@ -92,9 +96,13 @@ export const getServerSideProps = withIronSessionSsr(
     if (Array.isArray(splitUid)) {
       throw Error('Unexpected input');
     }
-    const isSuccess = context.query?.success != null;
+    let user = req.session.user ?? null;
+    if (user != null && user.splitUid !== splitUid) {
+      req.session.destroy();
+      user = null;
+    }
     const props: Props = {
-      isSuccess,
+      isSuccess: context.query?.success != null,
       split: getFormattedSplit(splitUid),
       user,
     };

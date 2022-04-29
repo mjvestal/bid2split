@@ -49,7 +49,7 @@ function Content({
     throw Error("No pending players and no result");
   }
 
-  const player = pendingPlayers.find(value => value.id === parseInt(user.login)) ?? null; // TODO
+  const player = pendingPlayers.find(value => value.id === user.playerId) ?? null;
   if (player == null) {
     // Player has submitted bid, so show them who hasn't
     return <PendingPlayersPage players={pendingPlayers} />;
@@ -104,14 +104,22 @@ export const getServerSideProps = withIronSessionSsr(
     if (Array.isArray(splitUid)) {
       throw Error('Unexpected input');
     }
-    const user = req.session.user;
-    if (user === undefined) {
+    let user = req.session.user ?? null;
+    if (user != null && user.splitUid !== splitUid) {
+      req.session.destroy();
+      user = null;
+    }
+    if (user == null) {
       res.setHeader("location", `/split/${splitUid}`);
       res.statusCode = 302;
       res.end();
       return {
         props: {
-          user: { isLoggedIn: false, login: ""} as User,
+          user: {
+            isLoggedIn: false,
+            playerId: -1,
+            splitUid: "",
+          } as User,
         },
       };
     }

@@ -5,7 +5,8 @@ import { withIronSessionApiRoute } from "iron-session/next";
 
 export type User = {
   isLoggedIn: boolean,
-  login: string,
+  playerId: number,
+  splitUid: string,
 };
 
 export default withIronSessionApiRoute(userRoute, sessionOptions);
@@ -21,7 +22,8 @@ async function userRoute(req: NextApiRequest, res: NextApiResponse<User>) {
   } else {
     res.json({
       isLoggedIn: false,
-      login: "",
+      playerId: -1,
+      splitUid: "",
     });
   }
 }
