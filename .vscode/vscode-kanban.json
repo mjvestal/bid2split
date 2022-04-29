@@ -4,6 +4,16 @@
       "assignedTo": {
         "name": "Matt Vestal"
       },
+      "creation_time": "2022-04-28T21:27:05.092Z",
+      "id": "12",
+      "prio": 1,
+      "references": [],
+      "title": "Add currency to split and create form"
+    },
+    {
+      "assignedTo": {
+        "name": "Matt Vestal"
+      },
       "creation_time": "2022-04-28T21:05:04.613Z",
       "id": "7",
       "prio": 1,
@@ -32,26 +42,6 @@
     },
     {
       "assignedTo": {
-        "name": "Matt Vestal"
-      },
-      "creation_time": "2022-04-28T21:05:17.735Z",
-      "id": "8",
-      "prio": 1,
-      "references": [],
-      "title": "Make it look good on larger screens"
-    },
-    {
-      "assignedTo": {
-        "name": "Matt Vestal"
-      },
-      "creation_time": "2022-04-28T21:04:37.673Z",
-      "id": "6",
-      "prio": 1,
-      "references": [],
-      "title": "Submit bids confirmation page"
-    },
-    {
-      "assignedTo": {
         "name": "matt_vestal"
       },
       "creation_time": "2022-04-22T16:43:16.009Z",
@@ -59,30 +49,9 @@
       "prio": 1,
       "references": [],
       "title": "Switch to real DB"
-    },
-    {
-      "assignedTo": {
-        "name": "Matt Vestal"
-      },
-      "creation_time": "2022-04-28T21:27:05.092Z",
-      "id": "12",
-      "prio": 1,
-      "references": [],
-      "title": "Add currency to split and create form"
     }
   ],
-  "in-progress": [
-    {
-      "assignedTo": {
-        "name": "Matt Vestal"
-      },
-      "creation_time": "2022-04-28T21:06:32.654Z",
-      "id": "9",
-      "prio": 1,
-      "references": [],
-      "title": "Bid API use split UID instead of ID"
-    }
-  ],
+  "in-progress": [],
   "testing": [],
   "done": [
     {
@@ -107,6 +76,26 @@
     },
     {
       "assignedTo": {
+        "name": "Matt Vestal"
+      },
+      "creation_time": "2022-04-28T21:06:32.654Z",
+      "id": "9",
+      "prio": 1,
+      "references": [],
+      "title": "Bid API use split UID instead of ID"
+    },
+    {
+      "assignedTo": {
+        "name": "Matt Vestal"
+      },
+      "creation_time": "2022-04-28T21:05:17.735Z",
+      "id": "8",
+      "prio": 1,
+      "references": [],
+      "title": "Make it look good on larger screens"
+    },
+    {
+      "assignedTo": {
         "name": "matt_vestal"
       },
       "creation_time": "2022-04-22T16:54:45.145Z",
@@ -124,6 +113,16 @@
       "prio": 1,
       "references": [],
       "title": "Render rental card"
+    },
+    {
+      "assignedTo": {
+        "name": "Matt Vestal"
+      },
+      "creation_time": "2022-04-28T21:04:37.673Z",
+      "id": "6",
+      "prio": 1,
+      "references": [],
+      "title": "Submit bids confirmation page"
     }
   ]
 }

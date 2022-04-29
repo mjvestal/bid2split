@@ -1,7 +1,9 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Headline from "./Headline";
 import { Player } from "helpers/Types";
 import ShareSplitInput from "./ShareSplitInput";
 import VerticalCenterLayout from "./VerticalCenterLayout";
+import { faCircleCheck } from '@fortawesome/free-regular-svg-icons';
 import { useSplitContext } from "lib/useSplitContext";
 
 export default function PendingPlayersPage({
@@ -10,21 +12,25 @@ export default function PendingPlayersPage({
   players: Player[],
 }) {
   const split = useSplitContext();
+
   return (
     <VerticalCenterLayout>
       <section>
-        <Headline>Just waiting on</Headline>
+        <div className="text-center">
+          <FontAwesomeIcon icon={faCircleCheck} size="6x" className="text-emerald-800 mb-2" />
+          <Headline>Bid Submitted</Headline>
+        </div>
         <p className="mt-6">
-          {
-            players.map(player => {
-              return <div key={player.id}>{player.name}</div>
-            })
-          }
+          Check back later to see which room you got!
         </p>
       </section>
-      <div className="mt-2 w-full">
-        <ShareSplitInput splitUid={split.uid} />
-      </div>
+      <section className="mt-8 border-t pt-8 w-full md:max-w-lg">
+        <Headline level={2}>While you wait...</Headline>
+        <p className="mt-6">Send a link to {players.map(player => player.name).join(', ')}</p>
+        <div className="mt-4">
+          <ShareSplitInput splitUid={split.uid} />
+        </div>
+      </section>
     </VerticalCenterLayout>
   )
 }
