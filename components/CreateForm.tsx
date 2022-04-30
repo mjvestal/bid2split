@@ -11,6 +11,7 @@ const urlRegEx = urlRegexSafe({exact: true, strict: true});
 export default function CreateForm() {
   const [bedrooms, setBedrooms] = useState(['', '']);
   const [people, setPeople] = useState(['', '']);
+  const [currency, setCurrency] = useState('USD');
   const [totalPrice, setTotalPrice] = useState(-1);
   const [listingUrl, setListingUrl] = useState('');
   const [errors, setErrors] = useState<string[]>([]);
@@ -82,9 +83,11 @@ export default function CreateForm() {
       <BedroomsFormSection bedrooms={bedrooms} onChange={handleChangeBedrooms} showErrors={errors.length > 0} />
       <PeopleFormSection people={people} onChange={setPeople} showErrors={errors.length > 0} />
       <MiscellaneousFormFields 
+        currency={currency}
         listingUrl={listingUrl}
         showErrors={errors.length > 0}
         totalPrice={totalPrice}
+        onChangeCurrency={setCurrency}
         onChangeListingUrl={setListingUrl}
         onChangePrice={setTotalPrice}
       />

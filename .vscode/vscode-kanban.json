@@ -4,16 +4,6 @@
       "assignedTo": {
         "name": "Matt Vestal"
       },
-      "creation_time": "2022-04-28T21:27:05.092Z",
-      "id": "12",
-      "prio": 1,
-      "references": [],
-      "title": "Add currency to split and create form"
-    },
-    {
-      "assignedTo": {
-        "name": "Matt Vestal"
-      },
       "creation_time": "2022-04-28T21:05:04.613Z",
       "id": "7",
       "prio": 1,
@@ -51,7 +41,18 @@
       "title": "Switch to real DB"
     }
   ],
-  "in-progress": [],
+  "in-progress": [
+    {
+      "assignedTo": {
+        "name": "Matt Vestal"
+      },
+      "creation_time": "2022-04-28T21:27:05.092Z",
+      "id": "12",
+      "prio": 1,
+      "references": [],
+      "title": "Add currency to split and create form"
+    }
+  ],
   "testing": [],
   "done": [
     {
