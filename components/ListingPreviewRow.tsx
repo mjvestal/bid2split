@@ -1,12 +1,15 @@
 import ListingDomain from "./ListingDomain";
+import formatPrice from "lib/formatPrice";
 
 export default function ListingPreviewRow({
+  currency,
   domain,
   image,
   price,
   title,
   url,
 }: {
+  currency: string,
   domain: string,
   image: string,
   price: number,
@@ -35,7 +38,7 @@ export default function ListingPreviewRow({
             rel="noreferrer noopener">
             {title}
           </a>
-          <div className="mt-1"><strong>${price}</strong> total price</div>
+          <div className="mt-1"><strong>{formatPrice(price, currency)}</strong> total price</div>
         </div>
       </div>
     </div>

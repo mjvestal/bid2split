@@ -131,12 +131,7 @@
     "id": 1,
     "game_id": 5,
     "name": "Sam & Paul",
-    "bids": [
-      50,
-      30,
-      30,
-      0
-    ],
+    "bids": null,
     "room": null,
     "rent": null
   },

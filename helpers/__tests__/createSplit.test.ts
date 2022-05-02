@@ -24,6 +24,7 @@ jest.mock('../rooms-repo');
 describe('createSplit Helper', () => {
   it('creates a split, players, and rooms', () => {
     expect(createSplitHelper({
+      currency: "USD",
       players: PLAYERS,
       rooms: ROOMS,
       totalPrice: 2000,
@@ -31,6 +32,7 @@ describe('createSplit Helper', () => {
 
     // Called createSplit
     expect((createSplit as jest.Mock).mock.calls[0][0]).toEqual({
+      currency: "USD",
       rooms: ROOMS.length,
       listingDomain: null,
       listingImage: null,

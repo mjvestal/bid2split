@@ -19,6 +19,7 @@ describe('retrieveSplit', () => {
       (getSplitByUid as jest.Mock).mockImplementation(() => {
         return {
           id: GAME_ID,
+          currency: "USD",
           rooms: 4,
           total_price: 1000,
           uid: GAME_UID,
@@ -28,6 +29,7 @@ describe('retrieveSplit', () => {
       (getSplitByUid as jest.Mock).mockImplementation(() => {
         return {
           id: GAME_ID,
+          currency: "USD",
           rooms: 4,
           total_price: 1000,
           uid: GAME_UID,
@@ -85,6 +87,7 @@ describe('retrieveSplit', () => {
       const game = retrieveSplit(GAME_UID);
       const expected: SplitType = {
         id: GAME_ID,
+        currency: "USD",
         listing: null,
         pendingPlayers: [
           {

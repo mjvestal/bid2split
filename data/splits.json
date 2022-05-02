@@ -1,6 +1,7 @@
 [
   {
     "id": 1,
+    "currency": "USD",
     "listing_domain": null,
     "listing_image": null,
     "listing_title": null,
@@ -11,6 +12,7 @@
   },
   {
     "id": 2,
+    "currency": "USD",
     "listing_domain": "www.airbnb.com",
     "listing_image": "https://a0.muscache.com/im/pictures/2ed21979-2ffb-47c6-b38c-1994cc3b1959.jpg?aki_policy=x_large",
     "listing_title": "Cabin #4 2 bedrooms in Grand Lake w/ Hot Tub",
@@ -21,6 +23,7 @@
   },
   {
     "id": 3,
+    "currency": "USD",
     "listing_domain": null,
     "listing_image": null,
     "listing_title": null,
@@ -31,6 +34,7 @@
   },
   {
     "id": 4,
+    "currency": "USD",
     "listing_domain": "www.airbnb.com",
     "listing_image": "https://a0.muscache.com/im/pictures/102740a0-0249-4dfa-9e01-267823933ee1.jpg?aki_policy=x_large",
     "listing_title": "Stinson home in Seadrift. 3 min walk to beach.",
@@ -41,6 +45,7 @@
   },
   {
     "id": 5,
+    "currency": "USD",
     "listing_domain": "www.vrbo.com",
     "listing_image": "https://media.vrbo.com/lodging/35000000/34340000/34333400/34333341/04209fd3.c10.jpg",
     "listing_title": "Location, Location!! Walk to Private Beach, Amazing Views and heated pool! - Cabo Bello",

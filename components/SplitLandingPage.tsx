@@ -23,6 +23,7 @@ export default function SplitLandingPage({
 }) {
   const split = useSplitContext();
   const {
+    currency,
     listing,
     pendingPlayers,
     totalPrice,
@@ -49,7 +50,8 @@ export default function SplitLandingPage({
         )
       }
       
-      <Listing listing={listing} price={totalPrice} />
+      <Listing currency={currency} listing={listing} price={totalPrice} />
+
       {
         player == null ? (
           <SelectPlayerSection onClaimPlayer={onClaimPlayer} players={nullthrows(pendingPlayers)} />
@@ -102,9 +104,11 @@ function HowItWorks() {
 }
 
 function Listing({
+  currency,
   listing,
   price,
 }: {
+  currency: string,
   listing: Listing | null,
   price: number,
 }) {
@@ -116,6 +120,7 @@ function Listing({
       <Headline level={2}>Where you&apos;re staying</Headline>
       <div className="mt-6">
         <ListingPreviewCard
+          currency={currency}
           domain={listing.domain}
           image={listing.image}
           price={price}

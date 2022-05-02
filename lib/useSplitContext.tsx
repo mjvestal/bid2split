@@ -10,6 +10,7 @@ export const useSplitContext = () => React.useContext(SplitContext);
 
 export type Split = {
   id: number,
+  currency: string,
   listing: Listing | null,
   pendingPlayers: Player[] | null,
   result: PlayerRoomRent[] | null,

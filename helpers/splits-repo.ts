@@ -4,6 +4,7 @@ import splitsJson from '../data/splits.json'
 
 export type EntSplit = {
   id: number,
+  currency: string,
   listing_domain: string | null,
   listing_image: string | null,
   listing_title: string | null,
@@ -14,7 +15,7 @@ export type EntSplit = {
 }
 
 // Keep array in memory
-let splits = splitsJson;
+let splits: EntSplit[] = splitsJson;
 
 /* READ */
 export function getAllSplits(): EntSplit[] {
@@ -27,6 +28,7 @@ export function getSplitByUid(uid: string): EntSplit | undefined {
 
 /* CREATE */
 export function createSplit({
+  currency = "USD",
   listingDomain = null,
   listingImage = null,
   listingTitle = null,
@@ -34,6 +36,7 @@ export function createSplit({
   rooms,
   totalPrice,
 }: {
+  currency: string,
   listingDomain?: string | null,
   listingImage?: string | null,
   listingTitle?: string | null,
@@ -44,6 +47,7 @@ export function createSplit({
   // generate
   const newGame: EntSplit = {
     id: splits.length ? Math.max(...splits.map(x => x.id)) + 1 : 1,
+    currency,
     listing_domain: listingDomain,
     listing_image: listingImage,
     listing_title: listingTitle,

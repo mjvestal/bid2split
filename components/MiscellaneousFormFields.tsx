@@ -53,8 +53,6 @@ const CURRENCIES = [
   'GBP',
   'JPY',
   'MXN',
-  'THB',
-  'TWD',
   'USD',
 ];
 

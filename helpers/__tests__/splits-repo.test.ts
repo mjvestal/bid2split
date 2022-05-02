@@ -6,6 +6,7 @@ import {
 } from '../splits-repo'
 describe('Split CRUD', () => {
   const SPLIT = {
+    currency: "USD",
     rooms: 3,
     totalPrice: 100,
   };

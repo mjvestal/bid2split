@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 
-import createGame from 'helpers/createSplit';
+import createSplit from 'helpers/createSplit';
 import scrapePreview from 'lib/scrapePreview';
 import { sessionOptions } from "lib/session";
 import { withIronSessionApiRoute } from "iron-session/next";
@@ -11,6 +11,7 @@ async function createSplitRoute(request: NextApiRequest, response: NextApiRespon
     return;
   }
   const {
+    currency,
     listingUrl,
     players,
     rooms,
@@ -19,7 +20,8 @@ async function createSplitRoute(request: NextApiRequest, response: NextApiRespon
 
   const listing = listingUrl != null ? await scrapePreview(listingUrl) : null;
 
-  const gameId = createGame({
+  const splitId = createSplit({
+    currency,
     listing: listing || undefined,
     players: players.map((player: string) => ({ name: player.trim()})),
     rooms: rooms.map((room: string) => ({name: room.trim()})),
@@ -31,7 +33,7 @@ async function createSplitRoute(request: NextApiRequest, response: NextApiRespon
   request.session.destroy();
 
   response.status(200).json({
-    gameId,
+    splitId,
   });
 }
 

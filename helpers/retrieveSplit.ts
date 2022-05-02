@@ -100,6 +100,7 @@ export default function retrieveSplit(uid: string): SplitType | null {
 
   return {
     id,
+    currency: split.currency,
     listing,
     pendingPlayers,
     rooms,

@@ -58,13 +58,13 @@ export default function CreateForm() {
       setErrors(currentErrors);
       return;
     }
-    const response = await fetch('/api/game', {
+    const response = await fetch('/api/split', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        autoChooseThreshold: 0.5,
+        currency,
         listingUrl: listingUrl.trim(),
         players: people,
         rooms: bedrooms,
@@ -72,8 +72,8 @@ export default function CreateForm() {
       }),
     });
     const game = await response.json();
-    if (game.gameId) {
-      const url = `/split/${game.gameId}`;
+    if (game.splitId) {
+      const url = `/split/${game.splitId}`;
       router.push(`${url}?success`, url);
     }
   }

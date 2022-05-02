@@ -27,6 +27,7 @@ export type Listing = {
 
 export type SplitType = {
   id: number,
+  currency: string,
   listing: Listing | null,
   pendingPlayers?: Player[],
   result?: PlayerRoomRent[],

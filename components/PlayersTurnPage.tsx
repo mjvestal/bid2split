@@ -5,6 +5,7 @@ import Button from "./Button";
 import Headline from "./Headline";
 import Input from "./Input";
 import VerticalCenterLayout from "./VerticalCenterLayout";
+import formatPrice from "lib/formatPrice";
 import nullthrows from "nullthrows";
 import { useSplitContext } from "lib/useSplitContext";
 
@@ -16,7 +17,7 @@ export default function PlayersTurnPage({
   player: Player,
 }) {
   const {
-    listing,
+    currency,
     rooms,
     totalPrice
   } = useSplitContext();
@@ -58,7 +59,12 @@ export default function PlayersTurnPage({
           })}
         </select>
 
-        <BidInstructions leastPreferredId={leastPreferredId} rooms={rooms} totalPrice={totalPrice} />
+        <BidInstructions 
+          currency={currency}
+          leastPreferredId={leastPreferredId} 
+          rooms={rooms} 
+          totalPrice={totalPrice}
+        />
         
         {
           remainingRooms.map(({id, name}) => {
@@ -91,10 +97,12 @@ export default function PlayersTurnPage({
 }
 
 function BidInstructions({
+  currency,
   leastPreferredId,
   rooms,
   totalPrice,
 }: {
+  currency: string,
   leastPreferredId: number,
   rooms: Room[],
   totalPrice: number
@@ -104,9 +112,10 @@ function BidInstructions({
     return null;
   }
   const averagePrice = Math.round(totalPrice / rooms.length);
+  const formattedPrice = formatPrice(averagePrice, currency);
   return (
     <p className="mt-8">
-      Assuming <b>{leastPreferredRoom.name}</b> is priced slightly less than the average price of ${averagePrice}/room, how much  
+      Assuming <b>{leastPreferredRoom.name}</b> is priced slightly less than the average price of {formattedPrice}/room, how much  
       <b> more</b> are you willing to pay for each room?
     </p>
   );

@@ -1,12 +1,15 @@
 import ListingDomain from "./ListingDomain";
+import formatPrice from "lib/formatPrice";
 
 export default function ListingPreviewCard({
+  currency,
   domain,
   image,
   price,
   title,
   url,
 }: {
+  currency: string,
   domain: string,
   image: string,
   price: number,
@@ -29,13 +32,13 @@ export default function ListingPreviewCard({
         <div className="p-6 md:pt-8">
           <ListingDomain domain={domain} />
           <a 
-            className="text-lg leading-tight font-medium line-clamp-2 hover:underline"
+            className="text-lg leading-tight mt-1 font-medium line-clamp-2 hover:underline"
             href={url} 
             target="_blank" 
             rel="noreferrer noopener">
             {title}
           </a>
-          <div className="mt-1"><strong>${price}</strong> total price</div>
+          <div className="mt-1"><strong>{formatPrice(price, currency)}</strong> total price</div>
         </div>
       </div>
     </div>
