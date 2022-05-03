@@ -53,5 +53,16 @@
     "rooms": 4,
     "total_price": 2057,
     "uid": "y7YQMJ542hb"
+  },
+  {
+    "id": 6,
+    "currency": "USD",
+    "listing_domain": null,
+    "listing_image": null,
+    "listing_title": null,
+    "listing_url": null,
+    "rooms": 3,
+    "total_price": 1200,
+    "uid": "QGX0vTVNqCV"
   }
 ]

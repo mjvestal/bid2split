@@ -14,16 +14,6 @@
       "assignedTo": {
         "name": "Matt Vestal"
       },
-      "creation_time": "2022-04-28T21:26:47.011Z",
-      "id": "11",
-      "prio": 1,
-      "references": [],
-      "title": "Format currency"
-    },
-    {
-      "assignedTo": {
-        "name": "Matt Vestal"
-      },
       "creation_time": "2022-04-28T21:07:36.961Z",
       "id": "10",
       "prio": 1,
@@ -41,18 +31,7 @@
       "title": "Switch to real DB"
     }
   ],
-  "in-progress": [
-    {
-      "assignedTo": {
-        "name": "Matt Vestal"
-      },
-      "creation_time": "2022-04-28T21:27:05.092Z",
-      "id": "12",
-      "prio": 1,
-      "references": [],
-      "title": "Add currency to split and create form"
-    }
-  ],
+  "in-progress": [],
   "testing": [],
   "done": [
     {
@@ -64,6 +43,16 @@
       "prio": 1,
       "references": [],
       "title": "Add columns to split table for parsed meta info"
+    },
+    {
+      "assignedTo": {
+        "name": "Matt Vestal"
+      },
+      "creation_time": "2022-04-28T21:27:05.092Z",
+      "id": "12",
+      "prio": 1,
+      "references": [],
+      "title": "Add currency to split and create form"
     },
     {
       "assignedTo": {
@@ -124,6 +113,16 @@
       "prio": 1,
       "references": [],
       "title": "Submit bids confirmation page"
+    },
+    {
+      "assignedTo": {
+        "name": "Matt Vestal"
+      },
+      "creation_time": "2022-04-28T21:26:47.011Z",
+      "id": "11",
+      "prio": 1,
+      "references": [],
+      "title": "Format currency"
     }
   ]
 }

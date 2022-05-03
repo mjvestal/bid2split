@@ -78,5 +78,20 @@
     "game_id": 5,
     "name": "Sleeper sofa",
     "room_number": 4
+  },
+  {
+    "game_id": 6,
+    "name": "Primary suite",
+    "room_number": 1
+  },
+  {
+    "game_id": 6,
+    "name": "Queen",
+    "room_number": 2
+  },
+  {
+    "game_id": 6,
+    "name": "Twin beds",
+    "room_number": 3
   }
 ]

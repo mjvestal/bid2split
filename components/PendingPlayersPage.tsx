@@ -15,22 +15,24 @@ export default function PendingPlayersPage({
 
   return (
     <VerticalCenterLayout>
-      <section>
-        <div className="text-center">
-          <FontAwesomeIcon icon={faCircleCheck} size="6x" className="text-emerald-800 mb-2" />
-          <Headline>Bid Submitted</Headline>
-        </div>
-        <p className="mt-6">
-          Check back later to see which room you got!
-        </p>
-      </section>
-      <section className="mt-8 border-t pt-8 w-full md:max-w-lg">
-        <Headline level={2}>While you wait...</Headline>
-        <p className="mt-6">Send a link to {players.map(player => player.name).join(', ')}</p>
-        <div className="mt-4">
-          <ShareSplitInput splitUid={split.uid} />
-        </div>
-      </section>
+      <div className="flex flex-col items-center">
+        <section>
+          <div className="text-center">
+            <FontAwesomeIcon icon={faCircleCheck} size="6x" className="text-emerald-800 mb-2" />
+            <Headline>Bid Submitted</Headline>
+          </div>
+          <p className="mt-6">
+            Check back later to see which room you got!
+          </p>
+        </section>
+        <section className="mt-8 border-t pt-8 w-full md:max-w-lg">
+          <Headline level={2}>While you wait...</Headline>
+          <p className="mt-6">Send a link to {players.map(player => player.name).join(', ')}</p>
+          <div className="mt-4">
+            <ShareSplitInput splitUid={split.uid} />
+          </div>
+        </section>
+      </div>
     </VerticalCenterLayout>
   )
 }

@@ -10,11 +10,13 @@ export default function SettledSplitPage({result}: {
   const split = useSplitContext();
   return (
     <VerticalCenterLayout>
-      <Headline>You&apos;re done!</Headline>
-      <div className="text-center">
-        {
-          result.map((assignment, index) => <Assignment currency={split.currency} assignment={assignment} key={index} />)
-        }
+      <div className="flex flex-col items-center">
+        <Headline>You&apos;re done!</Headline>
+        <div className="text-center">
+          {
+            result.map((assignment, index) => <Assignment currency={split.currency} assignment={assignment} key={index} />)
+          }
+        </div>
       </div>
     </VerticalCenterLayout>
   )

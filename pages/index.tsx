@@ -1,15 +1,11 @@
-import Button from '@/components/Button'
 import Center from '@/components/Center'
 import Head from 'next/head'
 import Headline from '@/components/Headline'
+import Link from 'next/link'
+import LinkButton from '@/components/LinkButton'
 import VerticalCenterLayout from '@/components/VerticalCenterLayout'
-import { useRouter } from 'next/router'
 
 export default function Home() {
-  const router = useRouter();
-  const handleGetStarted = () => {
-    router.push('/create');
-  };
   return (
     <div className="container">
       <Head>
@@ -26,44 +22,53 @@ export default function Home() {
           <p className="mt-4 text-xl">
             Use this simple tool to divide the price of your vacation rental so that everyone is happy!
           </p>
-          <p className="mt-4">
-            You may still end up sleeping in a twin bed and sharing a bathroom with 3 other people, but
-            at least you <b>won&apos;t</b> spend the same as the couple in the primary suite!
-          </p>
           <section className="mt-8 border-t pt-8">
             <Headline level={2}>How it works</Headline>
-            <ul>
-              <li>
-                Everyone in the group bids on bedrooms of the vacation rental.
+            <ol className="mt-4">
+              <li className="flex mt-2">
+                <span className="bg-emerald-100 text-emerald-800 text-sm font-semibold inline-flex items-center w-8 h-8 rounded-full justify-center mr-4 shrink-0">
+                  1.
+                </span>
+                <span className="mt-1">Everyone in the group bids on bedrooms of the vacation rental.</span>
               </li>
-              <li>
-                Using the bids, an algorithm assigns rooms and tells you how much each person pays.
+              <li className="flex mt-2">
+                <span className="bg-emerald-100 text-emerald-800 text-sm font-semibold inline-flex items-center w-8 h-8 rounded-full justify-center mr-4 shrink-0">
+                  2.
+                </span>
+                <span className="mt-1">
+                  Using the bids, an algorithm assigns rooms and tells you how much each person pays.
+                </span>
               </li>
-            </ul>
+            </ol>
+            <div className="mt-8">
+              <Center>
+                <Link href="/example"><a className="text-emerald-600 hover:underline">See an example</a></Link>
+              </Center>
+            </div>
           </section>
           <section className="mt-8 border-t pt-8">
             <Headline level={2}>Limitations</Headline>
             <ul>
-              <li>
+              <li className="mt-2">
                 You need some way of identifying each bedroom or sleeping area in the rental so that everyone in your
                 group knows what they&apos;re bidding on.
                 <br />
                 <b>Tip: </b>Use photos from the listing website to find a unique characteristic for each room.
               </li>
-              <li>
+              <li className="mt-2">
                 The tool only works if the number of rooms or sleeping areas equal the number
                 of people (or couples) staying in the rental.
               </li>
             </ul>
           </section>
-          <div className="mt-8">
-            <Center>
-              <Button onClick={handleGetStarted}>Get Started</Button>
-            </Center>
-          </div>
+          
         </main>
         <footer>
-          
+        <div className="mt-8">
+            <Center>
+              <LinkButton href="/create">Get Started</LinkButton>
+            </Center>
+          </div>
         </footer>
       </VerticalCenterLayout>
     </div>

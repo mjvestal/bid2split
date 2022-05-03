@@ -158,5 +158,29 @@
     "bids": null,
     "room": null,
     "rent": null
+  },
+  {
+    "id": 1,
+    "game_id": 6,
+    "name": "Rory & Taylor",
+    "bids": null,
+    "room": null,
+    "rent": null
+  },
+  {
+    "id": 2,
+    "game_id": 6,
+    "name": "Avery & Blake",
+    "bids": null,
+    "room": null,
+    "rent": null
+  },
+  {
+    "id": 3,
+    "game_id": 6,
+    "name": "Ezra & Drew",
+    "bids": null,
+    "room": null,
+    "rent": null
   }
 ]

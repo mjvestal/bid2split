@@ -15,7 +15,7 @@ export default function Button({
 }) {
   return style === 'primary' ? (
     <button
-      className="bg-emerald-900 text-white font-hand text-xl py-2 px-3 rounded-lg disabled:bg-emerald-200 text-center inline-flex items-center"
+      className="bg-emerald-700 text-white font-hand text-xl py-2 px-3 rounded-lg disabled:bg-emerald-200 text-center inline-flex items-center"
       disabled={disabled} 
       onClick={onClick}
       type={type}
@@ -24,7 +24,7 @@ export default function Button({
     </button>
   ) : (
     <button 
-      className="border-emerald-900 border-2 text-emerald-900 font-hand text-xl py-2 px-3 rounded-lg text-center inline-flex items-center"
+      className="border-emerald-700 border-2 text-emerald-700 font-hand text-xl py-2 px-3 rounded-lg text-center inline-flex items-center"
       disabled={disabled}
       onClick={onClick}
       type={type}
