@@ -1,3 +1,4 @@
+import {decode} from 'html-entities';
 import urlRegexSafe from 'url-regex-safe';
 
 const urlRegEx = urlRegexSafe({exact: true, strict: true});
@@ -6,7 +7,7 @@ function isValidUrl(url: string): boolean {
   return urlRegEx.test(url);
 }
 
-const KEY = '6f5e7ba5609cd591c9556e864b0e04c2';
+const KEY = process.env.LINK_PREVIEW_KEY;
 
 type LinkPreviewResponse = {
   title: string,
@@ -35,9 +36,9 @@ export default async function scrapePreview(rawUrl: string): Promise<LinkPreview
     },
   });
   const json: LinkPreviewResponse = await listingResponse.json();
-
   return {
     ...json,
+    title: decode(json.title),
     host,
   };
 }

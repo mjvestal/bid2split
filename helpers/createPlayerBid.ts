@@ -30,28 +30,32 @@ function calculateRents(split: UnsolvedSplit): PlayerRoomRent[] {
   }).sort((a, b) => a.rent - b.rent);
 }
 
-function saveResult(splitId: number, playerRoomRents: PlayerRoomRent[]) {
-  playerRoomRents.forEach(({player, room, rent}) => {
+async function saveResult(splitId: number, playerRoomRents: PlayerRoomRent[]) {
+  await Promise.all(playerRoomRents.map(({player, room, rent}) => {
     updatePlayerAssignment(splitId, player.id, room.id, rent);
-  });
+  }));
 }
 
 /**
  * 
- * @param split Split being mutated
+ * @param splitWithoutNewBids Split being mutated
  * @param playerId Player submitting bids for rooms
- * @param bids Bids layer is submitting
+ * @param bids Bids player is submitting
  * @returns State after player has submitted their bids. If they are the last player,
  *          Then the result will be included, otherwise the remaining players will be included
  */
-export default function createPlayerBid(splitWithoutNewBids: UnsolvedSplit, playerId: number, bids: number[]): MutatedSplit {
+export default async function createPlayerBid(
+  splitWithoutNewBids: UnsolvedSplit, 
+  playerId: number, 
+  bids: number[],
+): Promise<MutatedSplit> {
   const playersWithBids = [...splitWithoutNewBids.players];
   const indexOfPlayer = playersWithBids.findIndex(p => p.id === playerId);
   if (indexOfPlayer < 0) {
     throw Error('Player not found');
   }
 
-  const updatedPlayer = updatePlayerBids(splitWithoutNewBids.id, playerId, bids);
+  const updatedPlayer = await updatePlayerBids(splitWithoutNewBids.id, playerId, bids);
   if (updatedPlayer == null) {
     throw Error('Player not found');
   }
@@ -75,7 +79,7 @@ export default function createPlayerBid(splitWithoutNewBids: UnsolvedSplit, play
     players: playersWithBids,
   };
   const result = calculateRents(updatedSplit);
-  saveResult(splitWithoutNewBids.id, result);
+  await saveResult(splitWithoutNewBids.id, result);
   return {
     result,
   };

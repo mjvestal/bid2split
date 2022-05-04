@@ -1,3 +1,5 @@
+jest.mock('../supabaseClient');
+
 import {createPlayers} from '../players-repo';
 import {createRooms} from '../rooms-repo';
 import {createSplit} from '../splits-repo';
@@ -10,10 +12,10 @@ const ROOMS = [{name: 'X'}, {name: 'Y'}, {name: 'Z'}];
 
 jest.mock('../splits-repo', () => {
   return {
-    createSplit: jest.fn(() => {
+    createSplit: jest.fn(async () => {
       return {
         id: SPLIT_ID,
-        uid: SPLIT_UID,
+        short_code: SPLIT_UID,
       };
     }),
   }
@@ -22,8 +24,8 @@ jest.mock('../players-repo');
 jest.mock('../rooms-repo');
 
 describe('createSplit Helper', () => {
-  it('creates a split, players, and rooms', () => {
-    expect(createSplitHelper({
+  it('creates a split, players, and rooms', async () => {
+    expect(await createSplitHelper({
       currency: "USD",
       players: PLAYERS,
       rooms: ROOMS,

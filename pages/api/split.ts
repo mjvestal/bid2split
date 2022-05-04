@@ -20,7 +20,7 @@ async function createSplitRoute(request: NextApiRequest, response: NextApiRespon
 
   const listing = listingUrl != null ? await scrapePreview(listingUrl) : null;
 
-  const splitId = createSplit({
+  const splitId = await createSplit({
     currency,
     listing: listing || undefined,
     players: players.map((player: string) => ({ name: player.trim()})),

@@ -1,95 +1,68 @@
-import fs from 'fs'
-import playersJson from '../data/players.json'
+import fs from 'fs';
+import { supabase } from './supabaseClient';
 
 export type EntPlayer = {
  id: number,
- game_id: number,
+ split_id: number,
  name: string,
  bids: number[] | null,
  rent: number | null,
  room: number | null,
 }
 
-// Keep array in memory
-let players: EntPlayer[] = playersJson;
 
 /* READ */
-export function getPlayersBySplitId(splitId: number): EntPlayer[] {
-  return players.filter(x => x.game_id.toString() === splitId.toString());
-}
-
-export function getPlayerIndexBySplitAndPlayerId(splitId: number, playerId: number): number {
-  return players.findIndex(x => x.game_id.toString() === splitId.toString() && x.id === playerId);
+export async function getPlayersBySplitId(splitId: number): Promise<EntPlayer[]> {
+  const {data, error} = await supabase.from<EntPlayer>('players')
+                                  .select('id,split_id,name,bids,rent,room')
+                                  .eq('split_id', splitId);
+  if (error != null) {
+    throw Error(error.message);
+  }
+  return data;
 }
 
 /* CREATE */
-export function createPlayers(splitId: number, draftPlayers: Array<{name: string}>) {
-  draftPlayers.forEach((player, index: number) => {
-    const newPlayer: EntPlayer = {
-      id: index + 1,
-      game_id: splitId,
-      name: player.name,
-      bids: null,
-      room: null,
-      rent: null,
-    };
-  
-    players.push(newPlayer);
-  });
+export async function createPlayers(splitId: number, draftPlayers: Array<{name: string}>) {
+  const players = draftPlayers.map(player => ({
+    split_id: splitId,
+    name: player.name,
+  }));
 
-  saveData();
+  const {error} = await supabase.from<EntPlayer>('players').insert(players);
+  if (error != null) {
+    throw Error(error.message);
+  }
 }
 
 /* UPDATE */
-export function updatePlayerBids(splitId: number, playerId: number, bids: number[]): EntPlayer | null {
-  const index = getPlayerIndexBySplitAndPlayerId(splitId, playerId);
-  if (index < 0) {
-    return null;
+export async function updatePlayerBids(splitId: number, playerId: number, bids: number[]): Promise<EntPlayer | null> {
+  const {data, error} = await supabase.from<EntPlayer>('players')
+    .update({
+      bids,
+    })
+    .eq('id', playerId)
+    .eq('split_id', splitId);
+
+  if (error != null) {
+    throw Error(error.message);
   }
 
-  const player: EntPlayer = players[index];
-  const updatedPlayer: EntPlayer = {
-    ...player,
-    bids,
-  };
-
-  players.splice(index, 1, updatedPlayer);
-
-  saveData();
-
-  return updatedPlayer;
+  return data[0];
 }
 
-export function updatePlayerAssignment(splitId: number, playerId: number, roomId: number, rent: number): EntPlayer | null {
-  const index = getPlayerIndexBySplitAndPlayerId(splitId, playerId);
-  if (index < 0) {
-    return null;
+export async function updatePlayerAssignment(splitId: number, playerId: number, roomId: number, rent: number): Promise<EntPlayer | null> {
+  const {data, error} = await supabase.from<EntPlayer>('players')
+    .update({
+      rent,
+      room: roomId,
+    })
+    .eq('id', playerId)
+    .eq('split_id', splitId);
+
+  if (error != null) {
+    throw Error(error.message);
   }
 
-  const player: EntPlayer = players[index];
-  const updatedPlayer: EntPlayer = {
-    ...player,
-    room: roomId,
-    rent,
-  };
-
-  players.splice(index, 1, updatedPlayer);
-
-  saveData();
-
-  return updatedPlayer;
-}
-
-/* DELETE */
-export function deletePlayersByGameId(splitId: number) {
-  players = players.filter(x => x.game_id.toString() !== splitId.toString());
-
-  saveData();
-}
-
-/*
- * Private functions
- */
-function saveData() {
-  fs.writeFileSync('data/players.json', JSON.stringify(players, null, 2));
+  return data[0];
 }

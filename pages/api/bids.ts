@@ -29,7 +29,7 @@ async function bidRoute(request: NextApiRequest, response: NextApiResponse) {
 
   const playerId = user.playerId;
 
-  const splitData = retrieveUnsolvedSplit(splitUid);
+  const splitData = await retrieveUnsolvedSplit(splitUid);
   const players = splitData.players;
 
   // Make sure this player hasn't already submitted bids
@@ -45,7 +45,7 @@ async function bidRoute(request: NextApiRequest, response: NextApiResponse) {
     return;
   }
 
-  const result = createPlayerBid(splitData, playerId, bids);
+  const result = await createPlayerBid(splitData, playerId, bids);
   response.status(200).json({
     result,
   });

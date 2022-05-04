@@ -5,21 +5,21 @@ import {getRoomsBySplitId} from './rooms-repo';
 import {getSplitByUid} from './splits-repo';
 import nullthrows from 'nullthrows';
 
-export function retrieveUnsolvedSplit(splitUid: string): UnsolvedSplit {
-  const split = getSplitByUid(splitUid);
+export async function retrieveUnsolvedSplit(splitUid: string): Promise<UnsolvedSplit> {
+  const split = await getSplitByUid(splitUid);
   if (split == null) {
     throw Error(`No split for ID: ${splitUid}`);
   }
-  const players: PlayerWithBids[] = getPlayersBySplitId(split.id).map((player) => {
+  const players: PlayerWithBids[] = (await getPlayersBySplitId(split.id)).map((player) => {
     return {
       id: player.id,
       bids: player.bids,
       name: player.name,
     };
   });
-  const rooms: Room[] = getRoomsBySplitId(split.id)?.map((room) => {
+  const rooms: Room[] = (await getRoomsBySplitId(split.id)).map((room) => {
     return {
-      id: room.room_number,
+      id: room.id,
       name: room.name,
     };
   });
@@ -51,21 +51,21 @@ function getSplitResult(players: EntPlayer[], rooms: Room[]): PlayerRoomRent[] {
   }, []).sort((a, b) => a.rent - b.rent);
 }
 
-export default function retrieveSplit(uid: string): SplitType | null {
-  const split = getSplitByUid(uid);
+export default async function retrieveSplit(uid: string): Promise<SplitType | null> {
+  const split = await getSplitByUid(uid);
   if (split == null) {
     return null;
   }
   const id = split.id;
-  const rooms: Room[] = getRoomsBySplitId(id)?.map((room) => {
+  const rooms: Room[] = (await getRoomsBySplitId(id)).map((room) => {
     return {
-      id: room.room_number,
+      id: room.id,
       name: room.name,
     };
   });
-  const allPlayers = getPlayersBySplitId(id);
+  const allPlayers = await getPlayersBySplitId(id);
   if (allPlayers.length === 0) {
-    throw Error(`No people for split ID: ${id}`);
+    throw Error(`No people for split ID: ${uid}`);
   }
 
   let pendingPlayers: Player[] | undefined;

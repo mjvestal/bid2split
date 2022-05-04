@@ -1,6 +1,5 @@
-import fs from 'fs'
 import { nanoid } from 'nanoid/non-secure';
-import splitsJson from '../data/splits.json'
+import { supabase } from './supabaseClient';
 
 export type EntSplit = {
   id: number,
@@ -11,23 +10,33 @@ export type EntSplit = {
   listing_url: string | null,
   rooms: number,
   total_price: number,
-  uid: string,
+  short_code: string,
 }
-
-// Keep array in memory
-let splits: EntSplit[] = splitsJson;
 
 /* READ */
-export function getAllSplits(): EntSplit[] {
-  return splits;
+export async function getAllSplits(): Promise<EntSplit[]> {
+  const { data, error } = await supabase.from<EntSplit>('splits')
+          .select('id,currency,listing_domain,listing_image,listing_title,listing_url,rooms,total_price,short_code');
+  if (error != null) {
+    throw Error(error.message);
+  }
+  return data;
 }
 
-export function getSplitByUid(uid: string): EntSplit | undefined {
-  return splits.find(x => x.uid === uid);
+export async function getSplitByUid(uid: string): Promise<EntSplit | undefined> {
+  const { data, error } = await supabase.from<EntSplit>('splits')
+          .select('id,currency,listing_domain,listing_image,listing_title,listing_url,rooms,total_price,short_code')
+          .eq('short_code', uid)
+          .limit(1);
+  if (error != null) {
+    throw Error(error.message);
+  }
+
+  return data[0];
 }
 
 /* CREATE */
-export function createSplit({
+export async function createSplit({
   currency = "USD",
   listingDomain = null,
   listingImage = null,
@@ -43,10 +52,10 @@ export function createSplit({
   listingUrl?: string | null,
   rooms: number,
   totalPrice: number
-}): EntSplit {
+}): Promise<EntSplit> {
+  console.log(listingDomain, listingImage, listingTitle, listingUrl);
   // generate
-  const newGame: EntSplit = {
-    id: splits.length ? Math.max(...splits.map(x => x.id)) + 1 : 1,
+  const {data, error} = await supabase.from<EntSplit>('splits').insert([{
     currency,
     listing_domain: listingDomain,
     listing_image: listingImage,
@@ -54,24 +63,22 @@ export function createSplit({
     listing_url: listingUrl,
     rooms,
     total_price: totalPrice,
-    uid: nanoid(11),
+    short_code: nanoid(11),
+  }]);
+
+  if (error != null) {
+    throw Error(error.message);
   }
 
-  splits.push(newGame);
-  saveData();
-
-  return newGame;
+  return data[0];
 }
 
 /* DELETE */
-export function deleteSplit(id: number) {
-  splits = splits.filter(x => x.id.toString() !== id.toString());
-  saveData();
-}
-
-/*
- * Private functions
- */
-function saveData() {
-  fs.writeFileSync('data/splits.json', JSON.stringify(splits, null, 2));
+export async function deleteSplit(id: number) {
+  const { data, error } = await supabase.from<EntSplit>('splits')
+          .delete()
+          .eq('id', id);
+  if (error != null) {
+    throw Error(error.message);
+  };
 }

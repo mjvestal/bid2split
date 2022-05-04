@@ -4,7 +4,7 @@ import type { User } from "pages/api/user";
 
 export const sessionOptions: IronSessionOptions = {
   cookieName: "fairsplit_user_id",
-  password: "n'CVyVf{>_DMatkMq5jF_3^L<+YM<]DaZD&6~45", // TODO process.env.SECRET_COOKIE_PASSWORD as string,
+  password: process.env.SECRET_COOKIE_PASSWORD as string,
   cookieOptions: {
     secure: process.env.NODE_ENV === "production",
   },

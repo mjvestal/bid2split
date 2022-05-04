@@ -95,7 +95,7 @@ export const getServerSideProps = withIronSessionSsr(
         notFound: true,
       }
     }
-    const split = retrieveSplit(splitUid);
+    const split = await retrieveSplit(splitUid);
     if (split == null) {
       return {
         notFound: true,

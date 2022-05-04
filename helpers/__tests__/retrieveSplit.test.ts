@@ -1,3 +1,5 @@
+jest.mock('../supabaseClient');
+
 import { SplitType, UnsolvedSplit } from 'helpers/Types';
 import retrieveSplit, {retrieveUnsolvedSplit} from '../retrieveSplit';
 
@@ -9,84 +11,74 @@ jest.mock('../splits-repo');
 jest.mock('../players-repo');
 jest.mock('../rooms-repo');
 
-const GAME_ID = 2;
-const GAME_UID = "abc";
+const SPLIT_D = 2;
+const SPLIT_SHORT_CODE = "abc";
 
 describe('retrieveSplit', () => {
   describe('game exists', () => {
     beforeEach(() => {
       // Mock game
-      (getSplitByUid as jest.Mock).mockImplementation(() => {
+      (getSplitByUid as jest.Mock).mockImplementation(async () => {
         return {
-          id: GAME_ID,
+          id: SPLIT_D,
           currency: "USD",
           rooms: 4,
           total_price: 1000,
-          uid: GAME_UID,
-        }
-      });
-
-      (getSplitByUid as jest.Mock).mockImplementation(() => {
-        return {
-          id: GAME_ID,
-          currency: "USD",
-          rooms: 4,
-          total_price: 1000,
-          uid: GAME_UID,
+          short_code: SPLIT_SHORT_CODE,
         }
       });
 
       // Mock players
-      (getPlayersBySplitId as jest.Mock).mockImplementation(() => {
+      (getPlayersBySplitId as jest.Mock).mockImplementation(async () => {
         return [{
           id: 1,
-          game_id: GAME_ID,
+          split_id: SPLIT_D,
           name: 'John',
           bids: null,
         }, {
           id: 2,
-          game_id: GAME_ID,
+          split_id: SPLIT_D,
           name: 'Paul',
           bids: null,
         }, {
           id: 3,
-          game_id: GAME_ID,
+          split_id: SPLIT_D,
           name: 'Ringo',
           bids: null,
         }, {
           id: 4,
-          game_id: GAME_ID,
+          split_id: SPLIT_D,
           name: 'George',
           bids: null,
         }];
       });
 
       // Mock rooms
-      (getRoomsBySplitId as jest.Mock).mockImplementation(() => {
+      (getRoomsBySplitId as jest.Mock).mockImplementation(async () => {
         return [{
-          game_id: GAME_ID,
+          split_id: SPLIT_D,
           name: 'Master',
-          room_number: 1,
+          id: 1,
         }, {
-          game_id: GAME_ID,
+          split_id: SPLIT_D,
           name: 'Suite 2',
-          room_number: 2,
+          id: 2,
         }, {
-          game_id: GAME_ID,
+          split_id: SPLIT_D,
           name: 'Shared bath',
-          room_number: 3,
+          id: 3,
         }, {
-          game_id: GAME_ID,
+          split_id: SPLIT_D,
           name: 'Twin beds',
-          room_number: 4,
+          id: 4,
         }]
       });
     });
 
-    it('should return existing game', () => {
-      const game = retrieveSplit(GAME_UID);
+    it('should return existing game', async () => {
+      const game = await retrieveSplit(SPLIT_SHORT_CODE);
       const expected: SplitType = {
-        id: GAME_ID,
+        id: SPLIT_D,
         currency: "USD",
         listing: null,
         pendingPlayers: [
@@ -118,7 +110,7 @@ describe('retrieveSplit', () => {
           id: 4,
         }],
         totalPrice: 1000,
-        uid: GAME_UID,
+        uid: SPLIT_SHORT_CODE,
       }
       expect(game).toEqual(expected);
     });
@@ -126,10 +118,10 @@ describe('retrieveSplit', () => {
 
   describe('retrieveUnsolvedSplit', () => {
 
-    it('should return existing game', () => {
-      const game = retrieveUnsolvedSplit(GAME_UID);
+    it('should return existing game', async () => {
+      const game = await retrieveUnsolvedSplit(SPLIT_SHORT_CODE);
       const expected: UnsolvedSplit = {
-        id: GAME_ID,
+        id: SPLIT_D,
         players: [
           {
             id: 1,
@@ -163,7 +155,7 @@ describe('retrieveSplit', () => {
           id: 4,
         }],
         totalPrice: 1000,
-        uid: GAME_UID,
+        uid: SPLIT_SHORT_CODE,
       }
       expect(game).toEqual(expected);
     });

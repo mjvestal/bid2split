@@ -3,7 +3,7 @@ import { createPlayers } from "./players-repo";
 import { createRooms } from "./rooms-repo";
 import { createSplit } from "./splits-repo";
 
-export default function createSplitHelper({
+export default async function createSplitHelper({
   currency,
   listing,
   players,
@@ -15,8 +15,8 @@ export default function createSplitHelper({
   players: {name: string}[],
   rooms: {name: string}[],
   totalPrice: number,
-}): string {
-  const split = createSplit({
+}): Promise<string> {
+  const split = await createSplit({
     currency,
     rooms: rooms.length,
     listingDomain: listing?.host || null,
@@ -27,5 +27,5 @@ export default function createSplitHelper({
   });
   createPlayers(split.id, players);
   createRooms(split.id, rooms);
-  return split.uid;
+  return split.short_code;
 }

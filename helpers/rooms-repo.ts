@@ -1,45 +1,32 @@
 import fs from 'fs'
-import roomsJson from '../data/rooms.json'
+import { supabase } from './supabaseClient';
 
 export type EntRoom = {
-  game_id: number,
+  id: number,
   name: string,
-  room_number: number,
+  split_id: number,
 }
 
-// Keep array in memory
-let rooms = roomsJson;
-
 /* READ */
-export function getRoomsBySplitId(splitId: number): EntRoom[] {
-  return rooms.filter(x => x.game_id.toString() === splitId.toString());
+export async function getRoomsBySplitId(splitId: number): Promise<EntRoom[]> {
+  const {data, error} = await supabase.from<EntRoom>('rooms')
+                                  .select('id,name,split_id')
+                                  .eq('split_id', splitId);
+  if (error != null) {
+    throw Error(error.message);
+  }
+  return data;
 }
 
 /* CREATE */
-export function createRooms(gameId: number, draftRooms: Array<{name: string}>) {
-  draftRooms.forEach((room, index: number) => {
-    const newRoom = {
-      game_id: gameId,
-      name: room.name,
-      room_number: (index + 1),
-    };
-  
-    rooms.push(newRoom);
-  });
+export async function createRooms(splitId: number, draftRooms: Array<{name: string}>) {
+  const rooms = draftRooms.map(room => ({
+    name: room.name,
+    split_id: splitId,
+  }));
 
-  saveData();
-}
-
-/* DELETE */
-export function deleteRoomsByGameId(gameId: number) {
-  rooms = rooms.filter(x => x.game_id.toString() !== gameId.toString());
-
-  saveData();
-}
-
-/*
- * Private functions
- */
-function saveData() {
-  fs.writeFileSync('data/rooms.json', JSON.stringify(rooms, null, 2));
+  const {error} = await supabase.from<EntRoom>('rooms').insert(rooms);
+  if (error != null) {
+    throw Error(error.message);
+  }
 }
