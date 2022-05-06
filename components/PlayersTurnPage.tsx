@@ -49,7 +49,7 @@ export default function PlayersTurnPage({
                   rounded-md
                   border-gray-300
                   shadow-sm
-                  focus:border-emerald-300 focus:ring focus:ring-emerald-200 focus:ring-opacity-50"
+                  focus:border-cyan-300 focus:ring focus:ring-cyan-200 focus:ring-opacity-50"
             onChange={(event) => pickLeastPreferred(parseInt(event.currentTarget.value))}
             value={leastPreferredId}
         >

@@ -6,10 +6,10 @@ export default function Headline({
   level?: number,
 }) {
   switch(level) {
-    case 1:
-      return <h1 className="text-6xl font-hand text-emerald-700">{children}</h1>;
     case 2:
+      return <h2 className="text-2xl font-brand text-amber-500">{children}</h2>;
+    case 1:
     default:
-      return <h2 className="text-4xl font-hand text-emerald-700">{children}</h2>;
-  } 
+      return <h1 className="text-4xl font-brand text-salmon-700">{children}</h1>;
+  }
 }

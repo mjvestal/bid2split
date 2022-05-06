@@ -36,7 +36,9 @@ export default function BedroomsFormSection({
   return (
     <section className="mt-8">
       <Headline level={2}>Bedrooms</Headline>
-      <p className="mt-2">Describe each bedroom or sleeping area.</p>
+      <p className="mt-2">
+        Describe each bedroom or sleeping area.
+      </p>
       <div className="grid grid-cols-1 gap-6 mt-4">
       {
         bedrooms.map((bedroom, index) => {

@@ -18,7 +18,7 @@ export default function PendingPlayersPage({
       <div className="flex flex-col items-center">
         <section>
           <div className="text-center">
-            <FontAwesomeIcon icon={faCircleCheck} size="6x" className="text-emerald-800 mb-2" />
+            <FontAwesomeIcon icon={faCircleCheck} size="6x" className="text-salmon-700 mb-2" />
             <Headline>Bid Submitted</Headline>
           </div>
           <p className="mt-6">

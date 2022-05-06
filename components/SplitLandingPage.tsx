@@ -1,16 +1,17 @@
 import { Listing, Player } from "helpers/Types";
-
-import Center from "./Center";
-import Headline from "./Headline"
-import Link from "next/link";
-import ListingPreviewCard from "./ListingPreviewCard";
-import VerticalCenterLayout from "./VerticalCenterLayout";
-import SelectPlayerSection from "./SelectPlayerSection";
-import WelcomeBackSection from "./WelcomeBackSection";
-import { useSplitContext } from "lib/useSplitContext";
-import nullthrows from "nullthrows";
-import ShareSplitInput from "./ShareSplitInput";
 import listingSite from "lib/listingSite";
+import { useSplitContext } from "lib/useSplitContext";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import nullthrows from "nullthrows";
+import Button from "./Button";
+import Center from "./Center";
+import Headline from "./Headline";
+import ListingPreviewCard from "./ListingPreviewCard";
+import Logo from "./Logo";
+import Section from "./Section";
+import ShareSplitInput from "./ShareSplitInput";
+import { useState } from "react";
 
 export default function SplitLandingPage({
   isSuccess,
@@ -30,10 +31,10 @@ export default function SplitLandingPage({
     uid,
   } = split;
   return (
-    <VerticalCenterLayout>
+    <div>
       {
         isSuccess ? (
-          <>
+          <Section>
             <Headline level={1}>Success!</Headline>
             <p className="mt-2">
               Send a link to your group so they can submit their bids.
@@ -41,7 +42,7 @@ export default function SplitLandingPage({
             <div className="mt-2 w-full">
               <ShareSplitInput splitUid={split.uid} />
             </div>
-          </>
+          </Section>
         ) : (
           <>
             <Hero listing={listing} />
@@ -59,7 +60,7 @@ export default function SplitLandingPage({
           <WelcomeBackSection player={player} splitUid={uid} />
         )
       }
-    </VerticalCenterLayout>
+    </div>
   )
 }
 
@@ -70,36 +71,49 @@ function Hero({
 }) {
   const site = listingSite(listing);
   return (
-    <section>
-      <Headline>Split your {site ?? 'rental'} fairly</Headline>
-      <p className="mt-8">Divide the cost of your rental so that everyone is happy</p>
-    </section>
+    <Section>
+      <Center>
+        <Logo />
+      </Center>
+
+      <p className="text-xl font-brand font-medium mt-8 text-center">
+        Split the cost of your {site} so that everyone is happy!
+      </p>
+    </Section>
   )
 }
 
 function HowItWorks() {
   return (
-    <section className="mt-8 border-t pt-8">
+    <Section className="bg-slate-100 bg-teeth">
       <Headline level={2}>How it works</Headline>
-      <p className="mt-4">
-        Each person will select their least preferred room and bid
-        on how much more they are willing to pay for each of the other rooms.
-      </p>
-      <p className="mt-4">
-        Once every one has submitted bids, an algorithm will assign rooms and
-        fairly divide the total cost.
-      </p>
-      <p className="mt-4">
-        If you are assigned to your least preferred room, you will
-        pay less than if everyone paid the same.
-      </p>
+      <ol className="mt-4">
+        <li className="flex mt-2">
+          <span className="bg-cyan-100 text-cyan-800 text-sm font-semibold font-brand inline-flex items-center w-8 h-8 rounded-full justify-center mr-4 shrink-0">
+            1.
+          </span>
+          <span className="mt-1">
+            Each person will select their least preferred room and bid
+            on how much more they are willing to pay for each of the other rooms.
+          </span>
+        </li>
+        <li className="flex mt-2">
+          <span className="bg-cyan-100 text-cyan-800 text-sm font-semibold font-brand inline-flex items-center w-8 h-8 rounded-full justify-center mr-4 shrink-0">
+            2.
+          </span>
+          <span className="mt-1">
+            Once every one has submitted bids, an algorithm will assign rooms and
+            fairly divide the total cost.
+          </span>
+        </li>
+      </ol>
       <div className="mt-8">
         <Center>
-          <Link href="/example"><a className="text-emerald-600 hover:underline">See an example</a></Link>
+          <Link href="/example"><a className="text-cyan-500 hover:underline font-brand">See an example</a></Link>
         </Center>
       </div>
-    </section>
-  )
+    </Section>
+  );
 }
 
 function Listing({
@@ -115,7 +129,7 @@ function Listing({
     return null;
   }
   return (
-    <section className="mt-8 border-t pt-8 w-full">
+    <Section className="pt-8 w-full">
       <Headline level={2}>Where you&apos;re staying</Headline>
       <div className="mt-6">
         <ListingPreviewCard
@@ -127,6 +141,81 @@ function Listing({
           url={listing.url}
         />
       </div>
-    </section>
+    </Section>
+  )
+}
+
+function WelcomeBackSection({
+  player,
+  splitUid,
+}: {
+  player: Player,
+  splitUid: string,
+}) {
+  const router = useRouter();
+  const navigateToBid = () => {
+    router.push(`/split/${splitUid}/bid`);
+  };
+  return (
+    <Section className="container mx-auto">
+      <div className="border-t pt-8">
+        <Headline level={2}>Welcome back {player.name}</Headline>
+        <p className="mt-4">Bid on rooms.</p>
+        <div className="mt-10">
+          <Center>
+            <Button onClick={navigateToBid}>
+              Go
+            </Button>
+          </Center>
+        </div>
+      </div>
+    </Section>
+  )
+}
+
+function SelectPlayerSection({
+  onClaimPlayer,
+  players,
+}: {
+  onClaimPlayer: (id: number) => void,
+  players: Player[],
+}) {
+  const [selectedPlayer, setSelectedPlayer] = useState(-1);
+  return (
+    <Section className="container mx-auto">
+      <div className="border-t pt-8">
+        <Headline level={2}>Get started</Headline>
+        <p className="mt-4">Who are you submitting a bid for?</p>
+        <div className="self-start">
+        {
+          players.map(({id, name}) => {
+            return (
+              <div key={id}>
+                <label className="mt-2 inline-flex items-center">
+                  <input 
+                    checked={id === selectedPlayer}
+                    name="price_option"
+                    onChange={(event) => {setSelectedPlayer(parseInt(event.currentTarget.value))}}
+                    type="radio"
+                    value={id}
+                  />
+                  <span className="ml-2 text-xl font-brand">{name}</span>
+                </label>
+              </div>
+            )
+          })
+        }
+        </div>
+        <div className="mt-10">
+          <Center>
+            <Button
+              disabled={selectedPlayer < 0} 
+              onClick={() => { onClaimPlayer(selectedPlayer)}}>
+              Go
+            </Button>
+          </Center>
+        </div>
+      </div>
+    </Section>
   )
 }

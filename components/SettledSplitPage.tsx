@@ -35,12 +35,12 @@ function Assignment({
   const formattedRent = formatPrice(rent, currency);
   return (
     <div className="mt-8">
-      <div className="text-4xl font-hand">{playerName}</div>
-      <div className="mt-4 text-lg">
+      <div className="text-2xl font-brand">{playerName}</div>
+      <div className="mt-4 text-lg font-thin">
         pays{' '}
-        <span className="font-bold">{formattedRent}</span>
+        <span className="font-medium font-brand">{formattedRent}</span>
         {' '}for{' '}
-        <span className="font-bold">{room}</span>
+        <span className="font-medium font-brand">{room}</span>
       </div>
     </div>
   )

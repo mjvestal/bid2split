@@ -1,4 +1,5 @@
 import Center from "@/components/Center";
+import Head from "next/head";
 import Headline from "@/components/Headline";
 import LinkButton from "@/components/LinkButton";
 import VerticalCenterLayout from "@/components/VerticalCenterLayout";
@@ -6,13 +7,15 @@ import VerticalCenterLayout from "@/components/VerticalCenterLayout";
 export default function CreatePage() {
   return (
     <VerticalCenterLayout>
+      <Head>
+        <title>bid2split - Example split of the cost of an Airbnb</title>
+      </Head>
       <Headline>Example</Headline>
       <p className="mt-4">
         A group of 3 couples are traveling together and booked a 3 bedroom, 2 bathroom Airbnb.
       </p>
-      <p className="mt-2">The total price is <strong>$1,200</strong>. If the couples divide the price evenly, each couple would pay <strong>$400</strong>.</p>
 
-      <div className="mt-6">
+      <div className="mt-8">
         <Headline level={2}>Bedrooms</Headline>
         <ul className="mt-4">
           <li><strong>Primary Suite</strong> has a king bed and private bath.</li>
@@ -21,11 +24,12 @@ export default function CreatePage() {
         </ul>
       </div>
 
-      <div className="mt-6">
+      <div className="mt-8">
         <Headline level={2}>The couples&apos; bids</Headline>
+        <p className="mt-4">The total price is <strong>$1,200</strong>. If the couples divide the price evenly, each couple would pay <strong>$400</strong>.</p>
         <div className="mt-4 relative overflow-x-auto shadow-md sm:rounded-lg">
           <table className="table-auto w-full">
-            <thead className="bg-gray-50">
+            <thead className="bg-slate-100">
               <tr>
                 <th></th>
                 <th className="text-right px-2 py-3 sm:px-4">Twin beds</th>
@@ -57,7 +61,7 @@ export default function CreatePage() {
         </div>
       </div>
 
-      <div className="mt-6">
+      <div className="mt-8">
         <Headline level={2}>The result</Headline>
         <div className="mt-4">
           <ul>

@@ -53,7 +53,6 @@ export async function createSplit({
   rooms: number,
   totalPrice: number
 }): Promise<EntSplit> {
-  console.log(listingDomain, listingImage, listingTitle, listingUrl);
   // generate
   const {data, error} = await supabase.from<EntSplit>('splits').insert([{
     currency,

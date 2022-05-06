@@ -19,7 +19,7 @@ export default function Input({
 }) {
   return (
     <input
-      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-emerald-300 focus:ring focus:ring-emerald-200 focus:ring-opacity-50 invalid:border-red-500"
+      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-cyan-300 focus:ring focus:ring-cyan-200 focus:ring-opacity-50 invalid:border-red-500"
       max={type === "number" && max != null ? max : undefined}
       min={type === "number" && min != null ? min : undefined}
       onChange={onChange}

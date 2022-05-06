@@ -9,7 +9,7 @@ export default function LinkButton({
 }) {
   return (
     <Link href={href}>
-      <a className="bg-emerald-700 text-white font-hand text-xl py-2 px-3 rounded-lg text-center inline-flex items-center">
+      <a className="bg-salmon-700 text-white font-brand text-xl py-2 px-3 rounded-lg text-center inline-flex items-center">
         {children}
       </a>
     </Link>

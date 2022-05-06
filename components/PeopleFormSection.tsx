@@ -3,12 +3,9 @@ import Input from "./Input";
 import {useState} from 'react';
 
 const NAMES = [
-  'Alex', 
   'Blake', 
   'Drew', 
-  'Taylor', 
   'Kennedy', 
-  'Jordan', 
   'Avery', 
   'Cameron', 
   'Ezra', 
@@ -23,6 +20,8 @@ function getRandomNames(): string[] {
   while (names.length > 0) {
     randomNames.push(getRandomName(names));
   }
+  randomNames.unshift('e.g. Taylor & Jordan');
+  randomNames.unshift('e.g. Alex');
   return randomNames;
 }
 
@@ -65,7 +64,7 @@ export default function PeopleFormSection({
   onChange: (people: string[]) => void,
   showErrors: boolean,
 }) {
-  const [randomNames, setRandomNames] = useState(getRandomNames());
+  const [randomNames, _] = useState(getRandomNames());
   
   const handleNameChange = (value: string, changedIndex: number) => {
     const newPeople = people.map((person: string, index: number) => {

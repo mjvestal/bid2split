@@ -35,7 +35,7 @@ export default function MiscellaneousFormFields({
         required={showErrors}
       />
       <label className="block mt-4">
-        <span className="">(Optional) Link to listing:</span>
+        <span className="">(Optional) Link to listing</span>
         <Input
           onChange={handleUrlChange} 
           placeholder="https://www.airbnb.com/rooms/12345"
@@ -96,7 +96,7 @@ function PriceAndCurrencyInput({
           type="number" 
           name="price" 
           id="price" 
-          className={`focus:ring-emerald-200 focus:border-emerald-300 focus:ring-opacity-50 invalid:border-red-500 block w-full ${currencySymbol.length === 1 ? 'pl-7' : 'pl-12'}  pr-12 border-gray-300 rounded-md`}
+          className={`focus:ring-cyan-200 focus:border-cyan-300 focus:ring-opacity-50 invalid:border-red-500 block w-full ${currencySymbol.length === 1 ? 'pl-7' : 'pl-12'}  pr-12 border-gray-300 rounded-md`}
           onChange={handlePriceChange}
           placeholder="0"
           required={required}
@@ -110,7 +110,7 @@ function PriceAndCurrencyInput({
           <select
             id="currency" 
             name="currency" 
-            className="focus:ring-emerald-200 focus:border-emerald-300 h-full py-0 pl-2 pr-7 border-transparent bg-transparent text-gray-500 rounded-md"
+            className="focus:ring-cyan-200 focus:border-cyan-300 h-full py-0 pl-2 pr-7 border-transparent bg-transparent text-gray-500 rounded-md"
             onChange={handleChangeCurrency}
             value={currency}>
             {CURRENCIES.map((c: string) => {
