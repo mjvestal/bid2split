@@ -25,7 +25,9 @@ export default async function createSplitHelper({
     listingUrl: listing?.url || null,
     totalPrice,
   });
-  createPlayers(split.id, players);
-  createRooms(split.id, rooms);
+  await Promise.all([
+    createPlayers(split.id, players),
+    createRooms(split.id, rooms),
+  ]);
   return split.short_code;
 }
