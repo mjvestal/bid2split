@@ -31,9 +31,9 @@ function calculateRents(split: UnsolvedSplit): PlayerRoomRent[] {
 }
 
 async function saveResult(splitId: number, playerRoomRents: PlayerRoomRent[]) {
-  await Promise.all(playerRoomRents.map(({player, room, rent}) => {
-    updatePlayerAssignment(splitId, player.id, room.id, rent);
-  }));
+  for (let {player, room, rent} of playerRoomRents) {
+    await updatePlayerAssignment(splitId, player.id, room.id, rent);
+  }
 }
 
 /**
