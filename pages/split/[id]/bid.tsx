@@ -32,13 +32,11 @@ function Content({
 }: {
   user: User,
 }) {
-  const dispatch = useSplitReducer();
   const split = useSplitContext();
 
   const {
     pendingPlayers,
     result,
-    uid: splitUid,
   } = split;
 
   if (result != null) {
@@ -55,30 +53,7 @@ function Content({
     return <PendingPlayersPage players={pendingPlayers} />;
   }
 
-  const handleSubmit = async (bids: number[]) => {
-    const response = await fetch('/api/bids', {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        splitUid,
-        bids,
-      }),
-    });
-    const responseObj = await response.json();
-    const result: MutatedSplit = responseObj.result;
-    if (result.pendingPlayers) {
-      dispatch(updatePendingPlayers(result.pendingPlayers));
-      return;
-    }
-    if (result.result) {
-      dispatch(setResult(result.result));
-      return;
-    }
-  };
-
-  return <PlayersTurnPage onSubmit={handleSubmit} player={player} />
+  return <PlayersTurnPage player={player} />
 }
 
 function getFormattedSplit(splitData: SplitType): Split {

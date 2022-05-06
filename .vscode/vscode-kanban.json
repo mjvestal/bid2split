@@ -4,34 +4,6 @@
       "assignedTo": {
         "name": "Matt Vestal"
       },
-      "creation_time": "2022-04-28T21:07:36.961Z",
-      "id": "10",
-      "prio": 1,
-      "references": [],
-      "title": "Home page"
-    },
-    {
-      "assignedTo": {
-        "name": "Matt Vestal"
-      },
-      "creation_time": "2022-05-04T18:08:01.706Z",
-      "id": "14",
-      "references": [],
-      "title": "Buy domain"
-    },
-    {
-      "assignedTo": {
-        "name": "Matt Vestal"
-      },
-      "creation_time": "2022-05-04T18:07:37.707Z",
-      "id": "13",
-      "references": [],
-      "title": "Loading buttons"
-    },
-    {
-      "assignedTo": {
-        "name": "Matt Vestal"
-      },
       "creation_time": "2022-05-04T21:34:42.798Z",
       "id": "15",
       "references": [],
@@ -105,6 +77,16 @@
       "assignedTo": {
         "name": "Matt Vestal"
       },
+      "creation_time": "2022-04-28T21:07:36.961Z",
+      "id": "10",
+      "prio": 1,
+      "references": [],
+      "title": "Home page"
+    },
+    {
+      "assignedTo": {
+        "name": "Matt Vestal"
+      },
       "creation_time": "2022-04-28T21:05:17.735Z",
       "id": "8",
       "prio": 1,
@@ -150,6 +132,24 @@
       "prio": 1,
       "references": [],
       "title": "Switch to real DB"
+    },
+    {
+      "assignedTo": {
+        "name": "Matt Vestal"
+      },
+      "creation_time": "2022-05-04T18:08:01.706Z",
+      "id": "14",
+      "references": [],
+      "title": "Buy domain"
+    },
+    {
+      "assignedTo": {
+        "name": "Matt Vestal"
+      },
+      "creation_time": "2022-05-04T18:07:37.707Z",
+      "id": "13",
+      "references": [],
+      "title": "Loading buttons"
     }
   ]
 }

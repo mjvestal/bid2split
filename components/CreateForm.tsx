@@ -16,6 +16,7 @@ export default function CreateForm() {
   const [listingUrl, setListingUrl] = useState('');
   const [errors, setErrors] = useState<string[]>([]);
   const router = useRouter();
+  const [isLoading, setLoading] = useState(false);
 
   const handleChangeBedrooms = (newBedrooms: string[]) => {
     setBedrooms(newBedrooms);
@@ -53,11 +54,15 @@ export default function CreateForm() {
   }
 
   const createGame = async () => {
+    if (isLoading) {
+      return;
+    }
     const currentErrors = validateForm();
     if (currentErrors.length > 0) {
       setErrors(currentErrors);
       return;
     }
+    setLoading(true);
     const response = await fetch('/api/split', {
       method: 'PUT',
       headers: {
@@ -92,7 +97,7 @@ export default function CreateForm() {
         onChangePrice={setTotalPrice}
       />
       <div className="mt-4 flex items-center justify-center">
-        <Button onClick={createGame}>Start</Button>
+        <Button loading={isLoading} onClick={createGame}>Start</Button>
       </div>
     </div>
   )

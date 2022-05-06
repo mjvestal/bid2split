@@ -1,5 +1,6 @@
-import { Player, Room } from "helpers/Types";
+import { MutatedSplit, Player, Room } from "helpers/Types";
 import { useMemo, useState } from "react";
+import useSplitReducer, { setResult, updatePendingPlayers } from "lib/useSplitReducer";
 
 import Button from "./Button";
 import Headline from "./Headline";
@@ -10,26 +11,51 @@ import nullthrows from "nullthrows";
 import { useSplitContext } from "lib/useSplitContext";
 
 export default function PlayersTurnPage({
-  onSubmit,
   player,
 }: {
-  onSubmit: (bids: number[]) => void,
   player: Player,
 }) {
   const {
     currency,
     rooms,
-    totalPrice
+    totalPrice,
+    uid,
   } = useSplitContext();
+  const dispatch = useSplitReducer();
   const [
     bids,
     leastPreferredId,
     pickLeastPreferred,
     setBidForRoom,
   ] = useBidsFields(rooms, totalPrice);
+  const [isLoading, setLoading] = useState(false);
   const submitDisabled = Object.values(bids).some(field => field.value == null || field.error != null);
-  const handleClickSubmit = () => {
-    onSubmit(orderedBids(bids, rooms));
+
+  const handleClickSubmit = async () => {
+    if (isLoading || submitDisabled) {
+      return;
+    }
+    setLoading(true);
+    const response = await fetch('/api/bids', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        splitUid: uid,
+        bids: orderedBids(bids, rooms)
+      }),
+    });
+    const responseObj = await response.json();
+    const result: MutatedSplit = responseObj.result;
+    if (result.pendingPlayers) {
+      dispatch(updatePendingPlayers(result.pendingPlayers));
+      return;
+    }
+    if (result.result) {
+      dispatch(setResult(result.result));
+      return;
+    }
   };
   
   const remainingRooms = 
@@ -90,7 +116,12 @@ export default function PlayersTurnPage({
         }
       </div>
       <div className="mt-10">
-        <Button disabled={submitDisabled} onClick={submitDisabled ? () => {} : handleClickSubmit}>Submit</Button>
+        <Button
+          disabled={submitDisabled}
+          loading={isLoading}
+          onClick={submitDisabled ? () => {} : handleClickSubmit}>
+          Submit
+        </Button>
       </div>
     </VerticalCenterLayout>
   )
