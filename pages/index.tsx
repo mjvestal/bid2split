@@ -12,8 +12,8 @@ export default function Home() {
   return (
     <div>
       <Head>
-        <title>bid2split - Split the cost of your next vacation rental fairly</title>
-        <link rel="icon" href="/favicon.ico" />
+        <title>bid2split | Fairly split the cost of your next vacation rental</title>
+        <meta property="og:image" content="/logo_on_blue.png" />
       </Head>
 
       <Section>
@@ -26,7 +26,7 @@ export default function Home() {
           so that everyone is happy!
         </p>
       </Section>
-      <Section className="bg-slate-100 bg-teeth">
+      <Section className="bg-slate-100 bg-[url('/images/bg_tile_gray.png')]">
         <Headline level={2}>How it works</Headline>
         <ol className="mt-4">
           <li className="flex mt-2">

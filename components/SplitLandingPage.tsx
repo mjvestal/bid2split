@@ -73,7 +73,7 @@ function Hero({
   return (
     <Section>
       <Center>
-        <Logo />
+        <Link href="/"><a><Logo /></a></Link>
       </Center>
 
       <p className="text-xl font-brand font-medium mt-8 text-center">
@@ -85,7 +85,7 @@ function Hero({
 
 function HowItWorks() {
   return (
-    <Section className="bg-slate-100 bg-teeth">
+    <Section className="bg-slate-100 bg-[url('/images/bg_tile_gray.png')]">
       <Headline level={2}>How it works</Headline>
       <ol className="mt-4">
         <li className="flex mt-2">

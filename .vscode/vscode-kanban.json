@@ -4,28 +4,10 @@
       "assignedTo": {
         "name": "Matt Vestal"
       },
-      "creation_time": "2022-05-06T04:10:50.277Z",
-      "id": "16",
-      "references": [],
-      "title": "favicon"
-    },
-    {
-      "assignedTo": {
-        "name": "Matt Vestal"
-      },
       "creation_time": "2022-05-04T21:34:42.798Z",
       "id": "15",
       "references": [],
       "title": "meta tags"
-    },
-    {
-      "assignedTo": {
-        "name": "Matt Vestal"
-      },
-      "creation_time": "2022-05-06T04:11:00.898Z",
-      "id": "17",
-      "references": [],
-      "title": "mobile safari copy to clipboard"
     }
   ],
   "in-progress": [],
@@ -164,10 +146,28 @@
       "assignedTo": {
         "name": "Matt Vestal"
       },
+      "creation_time": "2022-05-06T04:10:50.277Z",
+      "id": "16",
+      "references": [],
+      "title": "favicon"
+    },
+    {
+      "assignedTo": {
+        "name": "Matt Vestal"
+      },
       "creation_time": "2022-05-04T18:07:37.707Z",
       "id": "13",
       "references": [],
       "title": "Loading buttons"
+    },
+    {
+      "assignedTo": {
+        "name": "Matt Vestal"
+      },
+      "creation_time": "2022-05-06T04:11:00.898Z",
+      "id": "17",
+      "references": [],
+      "title": "mobile safari copy to clipboard"
     }
   ]
 }

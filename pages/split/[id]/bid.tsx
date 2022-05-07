@@ -1,14 +1,14 @@
-import { MutatedSplit, Player, PlayerRoomRent, SplitType } from 'helpers/Types';
 import { Split, SplitContextProvider, useSplitContext } from 'lib/useSplitContext';
-import useSplitReducer, { setResult, updatePendingPlayers } from "lib/useSplitReducer";
 
 import type {GetServerSidePropsContext} from 'next'
 import PendingPlayersPage from '@/components/PendingPlayersPage';
 import PlayersTurnPage from '@/components/PlayersTurnPage';
 import SettledSplitPage from '@/components/SettledSplitPage';
+import SplitHead from '@/components/SplitHead';
+import { SplitType } from 'helpers/Types';
 import { User } from '../../api/user';
+import nullthrows from 'nullthrows';
 import retrieveSplit from 'helpers/retrieveSplit';
-import {useState} from 'react';
 import { withIronSessionSsr } from "iron-session/next";
 
 type Props = {
@@ -21,9 +21,12 @@ export default function Bid({
   user,
 }: Props) {
   return (
-    <SplitContextProvider split={split}>
-      <Content user={user} />
-    </SplitContextProvider>
+    <>
+      <SplitHead split={split} />
+      <SplitContextProvider split={split}>
+        <Content user={user} />
+      </SplitContextProvider>
+    </>
   )
 }
 
@@ -113,7 +116,7 @@ export const getServerSideProps = withIronSessionSsr(
   },
   {
     cookieName: "fairsplit_user_id",
-    password: "n'CVyVf{>_DMatkMq5jF_3^L<+YM<]DaZD&6~45",
+    password: nullthrows(process.env.SECRET_COOKIE_PASSWORD),
     // secure: true should be used in production (HTTPS) but can't be used in development (HTTP)
     cookieOptions: {
       secure: process.env.NODE_ENV === "production",
