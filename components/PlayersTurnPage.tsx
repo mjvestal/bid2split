@@ -3,9 +3,9 @@ import { useMemo, useState } from "react";
 import useSplitReducer, { setResult, updatePendingPlayers } from "lib/useSplitReducer";
 
 import Button from "./Button";
+import CenterLayout from "./CenterLayout";
 import Headline from "./Headline";
-import Input from "./Input";
-import VerticalCenterLayout from "./VerticalCenterLayout";
+import PriceAndCurrencyInput from "./PriceAndCurrencyInput";
 import formatPrice from "lib/formatPrice";
 import nullthrows from "nullthrows";
 import { useSplitContext } from "lib/useSplitContext";
@@ -63,7 +63,7 @@ export default function PlayersTurnPage({
       ? [] 
       : rooms.filter(room => room.id !== leastPreferredId);
   return (
-    <VerticalCenterLayout>
+    <CenterLayout>
       <Headline>{player.name}</Headline>
 
       <div className="self-start w-full">
@@ -98,12 +98,13 @@ export default function PlayersTurnPage({
             return (
               <label className="block mt-8" key={id}>
                 <span className="">{name}</span>
-                <Input 
+                <PriceAndCurrencyInput
+                  currency={currency}
+                  inputName={`price_${id}`}
                   max={totalPrice}
-                  min={0}
-                  onChange={(event) => setBidForRoom(id, event.currentTarget.value)}
-                  type="number"
-                  value={bids[id].value || ""}
+                  onChangePrice={(price) => setBidForRoom(id, price)}
+                  price={bids[id].value}
+                  required={error != null}
                 />
                 {
                   error != null && (
@@ -123,7 +124,7 @@ export default function PlayersTurnPage({
           Submit
         </Button>
       </div>
-    </VerticalCenterLayout>
+    </CenterLayout>
   )
 }
 
@@ -174,7 +175,7 @@ function useBidsFields(
   bids: BidMap, 
   leastPreferredId: number,
   pickLeastPreferred: (bidId: number) => void, 
-  setBid: (bidId: number, value: string) => void,
+  setBid: (bidId: number, value: number | null) => void,
 ] {
   const bidsById = useMemo(() => {
     return emptyMap(rooms);
@@ -189,11 +190,10 @@ function useBidsFields(
     setLeastPreferredId(id);
     setBids(newBids);
   };
-  const setBidForRoom = (id: number, value: string) => {
+  const setBidForRoom = (id: number, bid: number | null) => {
     const newBids = {
       ...bids,
     };
-    const bid = (value == null || value.length === 0 || isNaN(parseInt(value))) ? null : parseInt(value);
     newBids[id] = {
       error: newBids[id].error = bid != null && bid >= totalPrice ? `You cannot bid more than the total price` : null,
       value: bid,

@@ -12,7 +12,7 @@ export default function CreateForm() {
   const [bedrooms, setBedrooms] = useState(['', '']);
   const [people, setPeople] = useState(['', '']);
   const [currency, setCurrency] = useState('USD');
-  const [totalPrice, setTotalPrice] = useState(-1);
+  const [totalPrice, setTotalPrice] = useState<number | null>(null);
   const [listingUrl, setListingUrl] = useState('');
   const [errors, setErrors] = useState<string[]>([]);
   const router = useRouter();
@@ -47,7 +47,7 @@ export default function CreateForm() {
     if (listingUrl.length > 0 && !urlRegEx.test(listingUrl)) {
       errors.push('Invalid listing URL');
     }
-    if (totalPrice < 0) {
+    if (totalPrice == null || totalPrice < 0) {
       errors.push('Price is required');
     }
     return errors;

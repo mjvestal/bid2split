@@ -1,12 +1,12 @@
 import Center from "@/components/Center";
+import CenterLayout from "@/components/CenterLayout";
 import Head from "next/head";
 import Headline from "@/components/Headline";
 import LinkButton from "@/components/LinkButton";
-import VerticalCenterLayout from "@/components/VerticalCenterLayout";
 
 export default function CreatePage() {
   return (
-    <VerticalCenterLayout>
+    <CenterLayout>
       <Head>
         <title>bid2split - Example split of the cost of an Airbnb</title>
       </Head>
@@ -86,6 +86,6 @@ export default function CreatePage() {
         </Center>
       </div>
 
-    </VerticalCenterLayout>
+    </CenterLayout>
   )
 }

@@ -7,7 +7,7 @@ export default function CreatePage() {
       <Head>
         <title>bid2split | Create a split for your next vacation rental</title>
       </Head>
-      <div className="flex flex-col items-center py-2 pb-20 bg-[url('/images/bg_tile_gray.png')]">
+      <div className="flex flex-col items-center py-2 pb-20">
         <main className="flex w-full flex-1 flex-col items-center justify-center px-10">
           <div className="flex max-w-2xl">
             <CreateForm />

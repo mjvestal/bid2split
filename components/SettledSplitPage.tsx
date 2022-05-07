@@ -9,8 +9,8 @@ export default function SettledSplitPage({result}: {
 }) {
   const split = useSplitContext();
   return (
-    <VerticalCenterLayout>
-      <div className="flex flex-col items-center">
+    <VerticalCenterLayout className="bg-[url('/images/bg_tile_orange.png')]">
+      <div className="flex flex-col items-center bg-white rounded-xl py-10 shadow-lg">
         <Headline>You&apos;re done!</Headline>
         <div className="text-center">
           {

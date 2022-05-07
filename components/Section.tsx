@@ -6,7 +6,7 @@ export default function Section({
   className?: string,
 }) {
   return (
-    <section className={`flex flex-col items-center py-8 ${className}`}>
+    <section className={`flex flex-col items-center my-8 ${className}`}>
       <div className="flex w-full flex-1 flex-col items-center justify-center px-8">
         <div className="flex w-full md:max-w-3xl flex-col">
           {children}

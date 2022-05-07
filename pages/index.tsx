@@ -26,7 +26,7 @@ export default function Home() {
           so that everyone is happy!
         </p>
       </Section>
-      <Section className="bg-slate-100 bg-[url('/images/bg_tile_gray.png')]">
+      <Section className="py-8 bg-slate-100 bg-[url('/images/bg_tile_gray.png')]">
         <Headline level={2}>How it works</Headline>
         <ol className="mt-4">
           <li className="flex mt-2">

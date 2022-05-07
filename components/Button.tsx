@@ -17,7 +17,7 @@ export default function Button({
 }) {
   return style === 'primary' ? (
     <button
-      className="bg-gradient-to-br from-salmon-700 to-amber-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 text-white font-brand text-xl py-2 px-5 rounded-lg disabled:bg-salmon-200 text-center inline-flex items-center"
+      className="bg-gradient-to-br from-salmon-700 to-amber-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 text-white font-brand text-xl py-2 px-5 rounded-lg disabled:bg-none disabled:bg-salmon-200 disabled:cursor-not-allowed text-center inline-flex items-center"
       disabled={disabled || loading} 
       onClick={onClick}
       type={type}
