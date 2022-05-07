@@ -79,7 +79,7 @@ function Hero({
       </Center>
 
       <p className="text-xl font-brand font-medium mt-8 text-center">
-        Split the cost of your {site} so that everyone is happy!
+        Split the cost of your {site ?? 'rental'} so that everyone is happy!
       </p>
     </Section>
   )
