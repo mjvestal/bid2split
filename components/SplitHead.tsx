@@ -7,7 +7,7 @@ export default function SplitHead({
 }: {
   split: Split
 }) {
-  const image = split.listing == null || split.listing.image == null ? "/logo_on_blue.png" : split.listing.image;
+  const image = split.listing == null || split.listing.image == null ? "/images/logo_on_blue.png" : split.listing.image;
   const title = split.listing == null ? "bid2split | Fairly split the cost of your next vacation rental" : `bid2split | Split the cost of your ${listingSite(split.listing) ?? 'vacation rental'}`
   return (
     <Head>
