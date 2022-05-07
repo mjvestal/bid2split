@@ -13,7 +13,7 @@ export default function Home() {
     <div>
       <Head>
         <title>bid2split | Fairly split the cost of your next vacation rental</title>
-        <meta property="og:image" content="/logo_on_blue.png" />
+        <meta property="og:image" content="/images/logo_on_blue.png" />
       </Head>
 
       <Section>
