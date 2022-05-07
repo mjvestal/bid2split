@@ -10,69 +10,73 @@ import Section from '@/components/Section';
 
 export default function Home() {
   return (
-    <div>
+    <div className="flex min-h-screen h-screen-ios min-h-screen-ios flex-col">
       <Head>
         <title>bid2split | Fairly split the cost of your next vacation rental</title>
         <meta property="og:image" content="/images/logo_on_blue.png" />
       </Head>
-
-      <Section>
-        <Center>
-          <Logo />
-        </Center>
-
-        <p className="text-xl font-brand font-medium mt-8 text-center">
-          Split the cost of your next <RotatingBrandText /><br />
-          so that everyone is happy!
-        </p>
-      </Section>
-      <Section className="py-8 bg-slate-100 bg-[url('/images/bg_tile_gray.png')]">
-        <Headline level={2}>How it works</Headline>
-        <ol className="mt-4">
-          <li className="flex mt-2">
-            <span className="bg-cyan-100 text-cyan-800 text-sm font-semibold font-brand inline-flex items-center w-8 h-8 rounded-full justify-center mr-4 shrink-0">
-              1.
-            </span>
-            <span className="mt-1">One person puts in the details of the rental. They&apos;ll receive a unique URL to share to the group.</span>
-          </li>
-          <li className="flex mt-2">
-            <span className="bg-cyan-100 text-cyan-800 text-sm font-semibold font-brand inline-flex items-center w-8 h-8 rounded-full justify-center mr-4 shrink-0">
-              2.
-            </span>
-            <span className="mt-1">Everyone in the group bids on bedrooms of the vacation rental.</span>
-          </li>
-          <li className="flex mt-2">
-            <span className="bg-cyan-100 text-cyan-800 text-sm font-semibold font-brand inline-flex items-center w-8 h-8 rounded-full justify-center mr-4 shrink-0">
-              3.
-            </span>
-            <span className="mt-1">
-              An algorithm uses the bids to assign rooms and tells you how much each person pays.
-            </span>
-          </li>
-        </ol>
-        <div className="mt-8">
+      <main className="flex-1">
+        <Section>
           <Center>
-            <Link href="/example"><a className="text-cyan-500 hover:underline font-brand">See an example</a></Link>
+            <Logo />
           </Center>
-        </div>
-      </Section>
-      <Section>
-        <Headline level={2}>Limitations</Headline>
-        <ul>
-          <li className="mt-2">
-            You need some way to uniquely describe each bedroom or sleeping area so that your
-            group knows what they&apos;re bidding on.
-          </li>
-          <li className="mt-4">
-            The number of bedrooms (or sleeping areas) must equal the number of individuals (or couples).
-          </li>
-        </ul>
-        <div className="mt-8">
-          <Center>
-            <LinkButton href="/create">Get Started</LinkButton>
-          </Center>
-        </div>
-      </Section>
+
+          <p className="text-xl font-brand font-medium mt-8 text-center">
+            Split the cost of your next <RotatingBrandText /><br />
+            so that everyone is happy!
+          </p>
+        </Section>
+        <Section className="py-8 bg-slate-100 bg-[url('/images/bg_tile_gray.png')]">
+          <Headline level={2}>How it works</Headline>
+          <ol className="mt-4">
+            <li className="flex mt-2">
+              <span className="bg-cyan-100 text-cyan-800 text-sm font-semibold font-brand inline-flex items-center w-8 h-8 rounded-full justify-center mr-4 shrink-0">
+                1.
+              </span>
+              <span className="mt-1">One person puts in the details of the rental. They&apos;ll receive a unique URL to share to the group.</span>
+            </li>
+            <li className="flex mt-2">
+              <span className="bg-cyan-100 text-cyan-800 text-sm font-semibold font-brand inline-flex items-center w-8 h-8 rounded-full justify-center mr-4 shrink-0">
+                2.
+              </span>
+              <span className="mt-1">Everyone in the group bids on bedrooms of the vacation rental.</span>
+            </li>
+            <li className="flex mt-2">
+              <span className="bg-cyan-100 text-cyan-800 text-sm font-semibold font-brand inline-flex items-center w-8 h-8 rounded-full justify-center mr-4 shrink-0">
+                3.
+              </span>
+              <span className="mt-1">
+                An algorithm uses the bids to assign rooms and tells you how much each person pays.
+              </span>
+            </li>
+          </ol>
+          <div className="mt-8">
+            <Center>
+              <Link href="/example"><a className="text-cyan-500 hover:underline font-brand">See an example</a></Link>
+            </Center>
+          </div>
+        </Section>
+        <Section>
+          <Headline level={2}>Limitations</Headline>
+          <ul>
+            <li className="mt-2">
+              You need some way to uniquely describe each bedroom or sleeping area so that your
+              group knows what they&apos;re bidding on.
+            </li>
+            <li className="mt-4">
+              The number of bedrooms (or sleeping areas) must equal the number of individuals (or couples).
+            </li>
+          </ul>
+          <div className="mt-8">
+            <Center>
+              <LinkButton href="/create">Get Started</LinkButton>
+            </Center>
+          </div>
+        </Section>
+      </main>
+      <footer className="bg-sky-700 text-center py-12">
+        <Link href="mailto:feedback@bid2split.com"><a className="text-white hover:underline">feedback@bid2split.com</a></Link>
+      </footer>
     </div>
   )
 }

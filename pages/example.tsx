@@ -8,7 +8,7 @@ export default function CreatePage() {
   return (
     <CenterLayout>
       <Head>
-        <title>bid2split - Example split of the cost of an Airbnb</title>
+        <title>bid2split | Example split of the cost of an Airbnb</title>
       </Head>
       <Headline>Example</Headline>
       <p className="mt-4">
