@@ -75,7 +75,12 @@ export default function Home() {
         </Section>
       </main>
       <footer className="bg-sky-700 text-center py-12">
-        <Link href="mailto:feedback@bid2split.com"><a className="text-white hover:underline">feedback@bid2split.com</a></Link>
+        <Link href="mailto:feedback@bid2split.com"><a className="text-white underline">feedback@bid2split.com</a></Link>
+        <p className="mt-4 text-white">Uses Andrew Critch, PhD&apos;s{' '}
+          <Link href="http://acritch.com/rent/">
+            <a className="underline">rental harmony algorithm</a>
+          </Link>.
+        </p>
       </footer>
     </div>
   )
