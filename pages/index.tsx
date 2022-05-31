@@ -12,8 +12,9 @@ export default function Home() {
   return (
     <div className="flex min-h-screen h-screen-ios min-h-screen-ios flex-col">
       <Head>
-        <title>bid2split | Fairly split the cost of your next vacation rental</title>
+        <title>Fairly split the cost of your next Airbnb vacation rental</title>
         <meta property="og:image" content="/images/logo_on_blue.png" />
+        <meta name="description" content="Fairly assign rooms and divide the cost of an Airbnb, Vrbo or other vacation rental." />
       </Head>
       <main className="flex-1">
         <Section>
@@ -75,7 +76,9 @@ export default function Home() {
         </Section>
       </main>
       <footer className="bg-sky-700 text-center py-12">
-        <Link href="mailto:feedback@bid2split.com"><a className="text-white underline">feedback@bid2split.com</a></Link>
+        <address>
+          <Link href="mailto:feedback@bid2split.com"><a className="text-white underline">feedback@bid2split.com</a></Link>
+        </address>
         <p className="mt-4 text-white">Uses Andrew Critch, PhD&apos;s{' '}
           <Link href="http://acritch.com/rent/">
             <a className="underline">rental harmony algorithm</a>
